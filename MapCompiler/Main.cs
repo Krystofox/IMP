@@ -18,7 +18,7 @@ namespace MapCompiler
             string dumpPath = Path.GetFullPath(Program.args[0]);
             ParseDump(dumpPath);
 
-            byte[] mapFile = CreateData(new object[] { blocks });
+            byte[] mapFile = CreateData(new object[] { props });
             string mapFilePath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(dumpPath), @"../map.data"));
             Console.WriteLine(mapFilePath);
             if (File.Exists(mapFilePath))
@@ -32,7 +32,6 @@ namespace MapCompiler
             List<byte> data = new List<byte>();
             for (int i = 0; i < objects.Length; i++)
             {
-                
                 List<byte> buffer = new List<byte>();
                 IList list = (IList)objects[i];
                 Type type = list.GetType().GetGenericArguments().Single();
@@ -51,6 +50,7 @@ namespace MapCompiler
         }
 
         static List<Block> blocks = new List<Block>();
+        static List<Prop> props = new List<Prop>();
 
         void ParseDump(string dumpPath)
         {
@@ -60,7 +60,17 @@ namespace MapCompiler
                 string[] d = line.Split(";");
                 switch (d[0])
                 {
-                    case ("BLOCK"):
+                    case ("PROP"):
+                        int i = 1;
+                        props.Add(new Prop()
+                        {
+                            Name = d[i++],
+                            Position = GetVector(d[i++], d[i++], d[i++]),
+                            Rotation = GetVector(d[i++], d[i++], d[i++]),
+                            Scale = GetVector(d[i++], d[i++], d[i++]),
+                        });
+                        break;
+                    /*case ("BLOCK"):
                         int i = 1;
                         blocks.Add(new Block()
                         {
@@ -70,14 +80,10 @@ namespace MapCompiler
                             Size = ChangeWCords(GetSize(ref d,ref i,int.Parse(d[i++]))*10),
                             Uv = GetVector2Array(ref d,ref i,48)
                         });
-                        break;
+                        break;*/
                 }
             }
 
-        }
-
-        Vector3 ChangeWCords(Vector3 pos){
-            return new Vector3(pos.Y,pos.Z,pos.X);
         }
 
         int AddToValue(int value, ref int to)

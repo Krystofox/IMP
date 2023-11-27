@@ -1,7 +1,7 @@
 namespace Game.Resources.RsTypes;
 interface RsType
 {
-    void Load();
+    public void Load(string[] args);
 }
 
 

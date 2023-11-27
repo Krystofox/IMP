@@ -1,8 +1,8 @@
+using Game.Resources.RsTypes;
+
 namespace Game.Resources;
 class ResourceData
 {
-    public ResourceData(){
-        
-    }
+    public List<RsModel> rsModels = new List<RsModel>();
 }
 

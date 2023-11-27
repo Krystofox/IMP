@@ -1,3 +1,5 @@
+using Game.Resources;
+using Game.GameMap;
 using Raylib_cs;
 
 namespace Game;
@@ -6,14 +8,14 @@ class Main
 {
     public Main()
     {
-        MainThread mainThread = new MainThread();
-        RenderThread renderThread = new RenderThread();
-
+        RenderCore renderCore = new RenderCore();
+        GameLogicThread gameLThread = new GameLogicThread();
+        Map map = new Map("assets/Maps/dev_loading2");
         while (!Raylib.WindowShouldClose())
         {
-            mainThread.GameLogic();
-            renderThread.RenderFrame();
-            //renderThread.WaitForRenderThread();
+            gameLThread.RunGameLogic();
+            renderCore.RenderFrame();
+            gameLThread.WaitForGameLogic();
         }
     }
 

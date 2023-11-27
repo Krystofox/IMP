@@ -1,48 +1,20 @@
-namespace Game.Map;
+using System.Collections;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Numerics;
+using System.Reflection.Metadata;
+using Game.Resources;
+using static Game.GameMap.Types;
+namespace Game.GameMap;
 
 class Map
 {
-    //REWRITE TO NEW RESOURCE SYSTEM
-    
-    /*
-    public static Map map;
-        public Physics physics = new Physics();
-        public Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
-        public Block[] blocks;
+    ResourceData mapResources;
+    List<Prop> props = new List<Prop>();
+    public Map(string mapLoc)
+    {
+        mapResources = ResourceLoader.LoadResources($"{mapLoc}/map.rf");
+        Dictionary<Type, IList> mapData = MapLoader.LoadMapData($"{mapLoc}/map.data");
+        props = (List<Prop>)mapData[typeof(Prop)];
+    }
 
-        public Map()
-        {
-            map = this;
-            physics.Initialize();
-            new GameGraphics();
-        }
-
-        public void Unload()
-        {
-            foreach (var texture in textures)
-                UnloadTexture(texture.Value);
-            foreach (var block in blocks)
-                block.Unload();
-            physics.Dispose();
-            GC.Collect();
-        }
-        unsafe public void DrawBlocks()
-        {
-            for (int i = 0; i < blocks.Length; i++)
-            {
-                // DRAW CUBE WIRES + ROTATION ADD TO BLOCK
-                blocks[i].Model.materials[0].shader = GameGraphics.instance.lightingShader;
-                DrawModel(blocks[i].Model, blocks[i].Position, 1, Color.WHITE);
-                blocks[i].DrawWireframe(1, 1, Color.BLUE);
-                //var physObj = physics.simulation.Statics[blocks[i].Collider];
-                //DrawCubeWiresV(physObj.Pose.Position,physObj.BoundingBox.Max,Color.RED);
-            }
-        }
-        unsafe public void Draw()
-        {
-            SetShaderValue(GameGraphics.instance.lightingShader, GameGraphics.instance.lightingShader.locs[(int)SHADER_LOC_VECTOR_VIEW], PlayerController.instance.playerLocation + PlayerController.instance.cameraOffset, ShaderUniformDataType.SHADER_UNIFORM_VEC3);
-            physics.SimulationStep();
-            DrawBlocks();
-        }
-    */
 }

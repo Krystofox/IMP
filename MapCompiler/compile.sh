@@ -1,1 +1,1 @@
-dotnet run ../assets/map/dev_loading1/raw/map.dump
+dotnet run ../IMP/assets/Maps/dev_loading2/raw/map.dump
