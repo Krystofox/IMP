@@ -1,6 +1,7 @@
 using Raylib_cs;
 using Game.PhysicsMain;
 using static Raylib_cs.Raylib;
+using System.Diagnostics;
 
 namespace Game;
 class GameLogicThread
@@ -13,9 +14,11 @@ class GameLogicThread
         physics.Initialize();
         
     }
+    public Stopwatch execTime = new Stopwatch();
 
     public void RunGameLogic()
     {
+        execTime.Restart();
         thread = new Thread(GameLogic);
         thread.Start();
     }
@@ -27,6 +30,7 @@ class GameLogicThread
     public void GameLogic()
     {
         physics.SimulationStep();
+        execTime.Stop();
     }
     
 }

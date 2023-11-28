@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 
@@ -6,7 +7,6 @@ class RenderCore
 {
     public static int screenWidth = 1920;
     public static int screenHeight = 1080;
-    //Thread rThread;
     public RenderCore()
     {
         // Initialize window
@@ -15,14 +15,16 @@ class RenderCore
         // TEMP
         SetWindowPosition(1920, 0);
         // _____________
-        SetTargetFPS(60);
+        //SetTargetFPS(60);
 
         //!!!OpenGL rendering functions can be only called on the same thread that created the window
     }
-
+    public Stopwatch execTime = new Stopwatch();
     public void RenderFrame()
     {
+        execTime.Restart();
         DrawFrame();
+        execTime.Stop();
     }
 
     public void DrawFrame()
