@@ -27,12 +27,12 @@ class GameLogicThread
     {
         thread.Join();
     }
-    Random rnd = new Random();
+    //Random rnd = new Random();
     public void GameLogic()
     {
         physics.SimulationStep();
-        int number = rnd.Next(0, 100);
-        Thread.Sleep(number);
+        /*int number = rnd.Next(0, 100);
+        Thread.Sleep(number);*/
         execTime.Stop();
     }
 

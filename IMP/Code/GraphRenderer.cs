@@ -12,7 +12,6 @@ class GraphRenderer
     {
         graphData = new double[graphLenght];
         selected = graphLenght-1;
-        //Array.Clear(graphData,0,graphData.Length);
     }
 
     public void UpdateValue(double value)
@@ -48,12 +47,15 @@ class GraphRenderer
 
     public void Draw(int posX,int posY,int width,int height,Color color)
     {
-        double chunkLenX = (double)width/graphData.Length;
-        double lastVal = GetItemArrayShuffled(0);
-        for (int i = 1; i < graphData.Length; i++)
+        //Rewrite to single draw call
+        //Make smooth line animation
+        int rGraphLenght = graphData.Length-1;
+        double chunkLenX = (double)width/rGraphLenght;
+        double lastVal = GetItemArrayShuffled(1);
+        for (int i = 0; i < rGraphLenght; i++)
         {
-            DrawLine(ToInt32(posX+chunkLenX*i),ToInt32(posY+(1-lastVal)*height),ToInt32(posX+chunkLenX*(i+1)),posY+ToInt32((1-GetItemArrayShuffled(i))*height),color);
-            lastVal = GetItemArrayShuffled(i);
+            DrawLine(ToInt32(posX+chunkLenX*i),ToInt32(posY+(1-lastVal)*height),ToInt32(posX+chunkLenX*(i+1)),posY+ToInt32((1-GetItemArrayShuffled(i+1))*height),color);
+            lastVal = GetItemArrayShuffled(i+1);
         }
         
     }

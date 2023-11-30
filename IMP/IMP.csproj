@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
@@ -12,5 +11,5 @@
     <PackageReference Include="BepuPhysics" Version="2.4.0" />
     <PackageReference Include="Raylib-cs" Version="5.0.0" />
   </ItemGroup>
-
+  
 </Project>

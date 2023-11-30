@@ -9,7 +9,7 @@ using System.Globalization;
 
 namespace Game.PhysicsMain;
 
-class Physics
+class Physics : IDisposable
 {
     // Change UP vector to Z+
     public BufferPool bufferPool;

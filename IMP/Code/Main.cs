@@ -26,6 +26,7 @@ class Main
     }
 
     GraphRenderer graphRenderer = new GraphRenderer(100);
+    Random rnd = new Random();
     double lastUpdateTime = 0;
     private void DrawPerformanceStats()
     {
@@ -33,8 +34,11 @@ class Main
         DrawText($"Logic time: {logicThread.execTime.ElapsedMilliseconds} ms", 15, 15 + 20 * 0, 20, Color.BLACK);
         DrawText($"Render time: {renderCore.execTime.ElapsedMilliseconds} ms", 15, 15 + 20 * 1, 20, Color.BLACK);
         DrawText($"FPS: {GetFPS()}", 15, 15 + 20 * 2, 20, Color.BLACK);
+
+        //int number = rnd.Next(0, 1000);
+        //graphRenderer.AddValueAvg(number * 0.001);
         graphRenderer.AddValueAvg(GetFrameTime() * 10);
-        if (lastUpdateTime + 1 > GetTime())
+        if (lastUpdateTime + 0.1 < GetTime())
         {
             graphRenderer.UpdateValueAvg();
             lastUpdateTime = GetTime();
@@ -42,7 +46,7 @@ class Main
         graphRenderer.Draw(15, 15+20*3, 200-15, 20*2, Color.RED);
     }
 
-    double targetFrameTime = (double)1 / 60;
+    double targetFrameTime = (double)1 / 144;
     //double targetFrameTime = 0;
     double lastTime = 0;
     private void FrameControl()
