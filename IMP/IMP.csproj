@@ -5,11 +5,21 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>IDE0044,IDE0090,IDE0251</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BepuPhysics" Version="2.4.0" />
     <PackageReference Include="Raylib-cs" Version="5.0.0" />
   </ItemGroup>
-  
+   <!--
+  <ItemGroup>
+    <Reference Include="BepuPhysics">
+      <HintPath>libs/Bepu/BepuPhysics.dll</HintPath>
+    </Reference>
+    <Reference Include="BepuUtilities">
+      <HintPath>libs/Bepu/BepuUtilities.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  -->
 </Project>

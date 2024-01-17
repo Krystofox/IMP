@@ -1,5 +1,5 @@
-using Game.Resources;
-using Game.GameMap;
+using System.Diagnostics;
+using Game.Graphics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 
@@ -8,42 +8,39 @@ namespace Game;
 class Main
 {
     RenderCore renderCore = new RenderCore();
+    GameResources gameResources = new GameResources();
     GameLogicThread logicThread = new GameLogicThread();
+    Process currentProcess;
     public Main()
     {
-
-        Map map = new Map("assets/Maps/dev_loading2");
+        //Map map = new Map("assets/Maps/dev_loading2");
         lastTime = GetTime();
+
+        logicThread.RunGameLogic();
+        logicThread.WaitForGameLogic();
+
         while (!WindowShouldClose())
         {
+            SetPerformanceStats();
+            gameResources.LazyLoadObjects();
+            GraphicsState.SwitchStates();
             logicThread.RunGameLogic();
             renderCore.RenderFrame();
             logicThread.WaitForGameLogic();
-
-            DrawPerformanceStats();
             FrameControl();
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.WaitForFullGCComplete();
         }
     }
 
-    GraphRenderer graphRenderer = new GraphRenderer(100);
-    Random rnd = new Random();
-    double lastUpdateTime = 0;
-    private void DrawPerformanceStats()
+    private void SetPerformanceStats()
     {
-        DrawRectangle(10, 10, 200, 30 + 20 * 4, new Color(0, 0, 0, 20));
-        DrawText($"Logic time: {logicThread.execTime.ElapsedMilliseconds} ms", 15, 15 + 20 * 0, 20, Color.BLACK);
-        DrawText($"Render time: {renderCore.execTime.ElapsedMilliseconds} ms", 15, 15 + 20 * 1, 20, Color.BLACK);
-        DrawText($"FPS: {GetFPS()}", 15, 15 + 20 * 2, 20, Color.BLACK);
-
-        //int number = rnd.Next(0, 1000);
-        //graphRenderer.AddValueAvg(number * 0.001);
-        graphRenderer.AddValueAvg(GetFrameTime() * 10);
-        if (lastUpdateTime + 0.1 < GetTime())
-        {
-            graphRenderer.UpdateValueAvg();
-            lastUpdateTime = GetTime();
-        }
-        graphRenderer.Draw(15, 15+20*3, 200-15, 20*2, Color.RED);
+        renderCore.performanceStats.logicExec = logicThread.execTime.ElapsedMilliseconds;
+        renderCore.performanceStats.renderExec = renderCore.execTime.ElapsedMilliseconds;
+        renderCore.performanceStats.fps = GetFPS();
+        renderCore.performanceStats.memoryAloc = Math.Round(Process.GetCurrentProcess().WorkingSet64 * 0.000001 - 100, 5);
     }
 
     double targetFrameTime = (double)1 / 144;

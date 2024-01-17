@@ -2,23 +2,38 @@ using Raylib_cs;
 using Game.PhysicsMain;
 using static Raylib_cs.Raylib;
 using System.Diagnostics;
+using Game.GameLogic;
+using static Game.Graphics.GraphicsState;
 
 namespace Game;
 class GameLogicThread
 {
-    Physics physics;
+    static GameLogicThread GLT_instance;
+    InputHandler inputHandler = new InputHandler();
+    private Physics physics;
     Thread thread;
+    public List<IUpdatableObject> updatables = new List<IUpdatableObject>();
     public GameLogicThread()
     {
+        GLT_instance = this;
+        //Buffer with calculated matricies and locations for gpu
+        //Precalculate as much things on logicthread
+        //Send buffer to RenderCore
         physics = new Physics();
         physics.Initialize();
-
+        updatables.Add(new MapObject());
+    }
+    public static GameLogicThread GetGameLogicThread()
+    {
+        return GLT_instance;
     }
     public Stopwatch execTime = new Stopwatch();
 
     public void RunGameLogic()
     {
         execTime.Restart();
+        //MEMORY LEAKS IF SIMULATION STEP IS IN A ANOTHER THREAD!!!!
+        physics.SimulationStep();
         thread = new Thread(GameLogic);
         thread.Start();
     }
@@ -30,9 +45,12 @@ class GameLogicThread
     //Random rnd = new Random();
     public void GameLogic()
     {
-        physics.SimulationStep();
-        /*int number = rnd.Next(0, 100);
-        Thread.Sleep(number);*/
+        //Thread.Sleep(1000);
+        GetStateL().dynamicObjects.Clear();
+        for (int i = 0; i < updatables.Count; i++)
+        {
+            updatables[i].Update();
+        }
         execTime.Stop();
     }
 

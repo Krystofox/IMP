@@ -15,18 +15,23 @@ class Physics : IDisposable
     public BufferPool bufferPool;
     public Simulation simulation;
     public ThreadDispatcher threadDispatcher;
-    public static Physics physics;
+    static Physics physInstance;
     public void Initialize()
     {
-        physics = this;
+        physInstance = this;
         bufferPool = new BufferPool();
-        simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks(), new PoseIntegratorCallbacks(new Vector3(0, -150, 0)), new SolveDescription(8, 1));
+        simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks(), new PoseIntegratorCallbacks(new Vector3(0, 0, -1f)), new SolveDescription(8, 1));
         threadDispatcher = new ThreadDispatcher(Environment.ProcessorCount);
+    }
+    public static Physics GetPhysics()
+    {
+        return physInstance;
     }
 
     public void SimulationStep()
     {
         simulation.Timestep(0.01f, threadDispatcher);
+        //simulation.IncrementallyOptimizeDataStructures(threadDispatcher);
     }
 
     public void Dispose()
