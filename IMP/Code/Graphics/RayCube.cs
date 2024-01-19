@@ -3,6 +3,7 @@ using Game.Graphics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Game.Graphics.GraphicsState;
+using static Game.Graphics.Shaders;
 
 namespace Game.Graphics;
 class RayCube : IDrawableObject

@@ -7,8 +7,8 @@ namespace Game;
 
 class Main
 {
-    RenderCore renderCore = new RenderCore();
     GameResources gameResources = new GameResources();
+    RenderCore renderCore = new RenderCore();
     GameLogicThread logicThread = new GameLogicThread();
     Process currentProcess;
     public Main()

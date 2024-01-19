@@ -32,4 +32,21 @@ class InputHandler
             movementVector += new Vector2(0, -1);
         return movementVector;
     }
+
+    Vector2 oldMousePos;
+    public Vector2 GetLookVector()
+    {
+        Vector2 lookVector = (GetMousePosition() - oldMousePos);
+        if(lookVector != Vector2.Zero)
+            lookVector = Vector2.Normalize(lookVector);
+        oldMousePos = GetMousePosition();
+        return lookVector;
+    }
+
+    public bool GetJump()
+    {
+        if (IsKeyDown(KeyboardKey.KEY_SPACE))
+            return true;
+        return false;
+    }
 }

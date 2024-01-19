@@ -7,20 +7,20 @@ using static Game.Graphics.Shaders;
 
 
 namespace Game.Graphics;
-class ModelPlayer : IDrawableObject
+class ModelLantern : IDrawableObject
 {
     public Model model;
     public Matrix4x4 transform;
     public Vector3 Position = new Vector3(0,0,0);
     
-    public ModelPlayer()
+    public ModelLantern()
     {
 
     }
     unsafe public void Initialize()
     {
-        model = LoadModel("assets/Models/PlayerModel/playerModel.m3d");
-        Texture2D texture = LoadTexture("assets/Models/PlayerModel/playerTexture.png");
+        model = LoadModel("assets/Models/Lantern/lantern.m3d");
+        Texture2D texture = LoadTexture("assets/Models/Lantern/lanternTexture.png");
         SetMaterialTexture(ref model,0,MaterialMapIndex.MATERIAL_MAP_DIFFUSE,ref texture);
         model.Materials[0].Shader = GetShaders().lighting;
         transform = model.Transform;

@@ -20,7 +20,7 @@ class Physics : IDisposable
     {
         physInstance = this;
         bufferPool = new BufferPool();
-        simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks(), new PoseIntegratorCallbacks(new Vector3(0, 0, -1f)), new SolveDescription(8, 1));
+        simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks(), new PoseIntegratorCallbacks(new Vector3(0, 0, -10f)), new SolveDescription(8, 1));
         threadDispatcher = new ThreadDispatcher(Environment.ProcessorCount);
     }
     public static Physics GetPhysics()

@@ -1,8 +1,7 @@
 namespace Game.Graphics;
 
-interface IDrawableObject : IDisposable
+interface IDrawableObject : IDisposable,ILazyLoad
 {
-    void Initialize();
     void OnDraw();
 
 }

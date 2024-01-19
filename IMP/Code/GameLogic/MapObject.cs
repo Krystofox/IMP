@@ -8,23 +8,35 @@ using static Game.GameLogicThread;
 using Game.PhysicsMain;
 using static Game.PhysicsMain.Physics;
 using Game.Graphics;
+using static Game.GameResources;
 
 namespace Game.GameLogic;
 
 class MapObject : IUpdatableObject
 {
     Player player = new Player();
+    RayPlane plane = new RayPlane(50,50,1,1);
+    Light light;
     public MapObject()
     {
         Physics phys = GetPhysics();
-        phys.simulation.Statics.Add(new StaticDescription(new Vector3(0,0,-0.5f), phys.simulation.Shapes.Add(new Box(100,100,1))));
+        phys.simulation.Statics.Add(new StaticDescription(new Vector3(0,0,-1f), phys.simulation.Shapes.Add(new Box(100,100,2))));
+        GetGResources().lazyObjects.Add(plane);
+        light = new Light(
+            0,
+            LightType.Point,
+            new Vector3(0, 0, 10),
+            Vector3.Zero,
+            Color.WHITE
+        );
+
+        GetGameLogicThread().updatables.Add(new LanternObject());
     }
 
     public void Update()
     {
         player.Update();
-        //new RayCube(new Vector3(0,0,-0.5f),100,100,1,new Color(250,250,250,255)).Draw();
-        new RayGrid(100,1).Draw();
+        plane.Draw();
     }
 
     public void Dispose()

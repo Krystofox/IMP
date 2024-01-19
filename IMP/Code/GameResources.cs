@@ -3,7 +3,7 @@ using Game.Graphics;
 namespace Game;
 class GameResources
 {
-    public List<IDrawableObject> lazyObjects = new List<IDrawableObject>();
+    public List<ILazyLoad> lazyObjects = new List<ILazyLoad>();
 
     static GameResources instance;
 
