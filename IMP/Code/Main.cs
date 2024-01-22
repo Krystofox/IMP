@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Game.Graphics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
+using Game.Develop;
 
 namespace Game;
 
@@ -13,6 +14,7 @@ class Main
     Process currentProcess;
     public Main()
     {
+        Connection connection = new Connection();
         //Map map = new Map("assets/Maps/dev_loading2");
         lastTime = GetTime();
 
@@ -22,6 +24,7 @@ class Main
         while (!WindowShouldClose())
         {
             SetPerformanceStats();
+            connection.Update();
             gameResources.LazyLoadObjects();
             GraphicsState.SwitchStates();
             logicThread.RunGameLogic();
