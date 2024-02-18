@@ -57,7 +57,7 @@ class ConnectionCodeOperator(bpy.types.Operator):
 
 class ConnectionCode(bpy.types.PropertyGroup):
     status = "DISCONNECTED"
-    _client = None
+    _client: socket.socket = None
 
     def execute():
         ConnectionCodeOperator.terminate()
@@ -76,7 +76,7 @@ class ConnectionCode(bpy.types.PropertyGroup):
     def connect():
         try:
             ConnectionCode._client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            ConnectionCode._client.settimeout(0.1)
+            #ConnectionCode._client.settimeout(0.1)
             ConnectionCode._client.connect(("127.0.0.1",9228))
         except socket.error:
             ConnectionCode.status = "DISCONNECTED"
@@ -86,10 +86,15 @@ class ConnectionCode(bpy.types.PropertyGroup):
     
     def server_loop():
         client = ConnectionCode._client
+        client.send(bytes([1]))
         response = client.recv(4096)
         response = response.decode("utf-8")
         print("RESPONSE:" + response)
 
+    def send_data(data):        
+        client = ConnectionCode._client
+        client.send(1)
+        
 class ObjManager(bpy.types.PropertyGroup):
     bobjects = []
 
@@ -99,6 +104,7 @@ class ObjManager(bpy.types.PropertyGroup):
                 ObjManager.bobjects.append(o)
 
     def list():
+
         print("--------")
         for o in ObjManager.bobjects:
             print(o)
