@@ -4,6 +4,7 @@ using static Raylib_cs.Raylib;
 using System.Diagnostics;
 using Game.GameLogic;
 using static Game.Graphics.GraphicsState;
+using System.Data.Common;
 
 namespace Game;
 class GameLogicThread
@@ -22,6 +23,12 @@ class GameLogicThread
         physics = new Physics();
         physics.Initialize();
         updatables.Add(new MapObject());
+    }
+
+    static uint LastID = 0;
+    public static uint GetNewID()
+    {
+        return LastID++;
     }
     public static GameLogicThread GetGameLogicThread()
     {

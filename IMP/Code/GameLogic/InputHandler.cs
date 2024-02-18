@@ -22,13 +22,13 @@ class InputHandler
     public Vector2 GetMovementVector()
     {
         Vector2 movementVector = new Vector2(0, 0);
-        if (IsKeyDown(KeyboardKey.KEY_W))
+        if (IsKeyDown(KeyboardKey.W))
             movementVector += new Vector2(1, 0);
-        if (IsKeyDown(KeyboardKey.KEY_S))
+        if (IsKeyDown(KeyboardKey.S))
             movementVector += new Vector2(-1, 0);
-        if (IsKeyDown(KeyboardKey.KEY_A))
+        if (IsKeyDown(KeyboardKey.A))
             movementVector += new Vector2(0, 1);
-        if (IsKeyDown(KeyboardKey.KEY_D))
+        if (IsKeyDown(KeyboardKey.D))
             movementVector += new Vector2(0, -1);
         return movementVector;
     }
@@ -45,7 +45,7 @@ class InputHandler
 
     public bool GetJump()
     {
-        if (IsKeyDown(KeyboardKey.KEY_SPACE))
+        if (IsKeyDown(KeyboardKey.Space))
             return true;
         return false;
     }

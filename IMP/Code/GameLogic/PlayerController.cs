@@ -30,7 +30,7 @@ class PlayerController
     bool mouseLock = true;
     public void MouseLock()
     {
-        if (IsKeyPressed(KeyboardKey.KEY_P))
+        if (IsKeyPressed(KeyboardKey.P))
         {
             mouseLock = !mouseLock;
             if (mouseLock)
@@ -79,7 +79,7 @@ class PlayerController
         phys.simulation.Bodies[colisionMesh].Pose.Orientation = rotation;
         phys.simulation.Bodies[colisionMesh].ApplyLinearImpulse(new Vector3(movementV.X, movementV.Y, 0));
         PlayerPosition = phys.simulation.Bodies[colisionMesh].Pose.Position;
-        new ColisionMeshD(PlayerPosition, new Vector3(1, 1, 2), phys.simulation.Bodies[colisionMesh].Pose.Orientation, Color.BLUE).Draw();
+        new ColisionMeshD(PlayerPosition, new Vector3(1, 1, 2), phys.simulation.Bodies[colisionMesh].Pose.Orientation, Color.Blue).Draw();
     }
 
     float GetVecAngle(Vector2 a, Vector2 b)

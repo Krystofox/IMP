@@ -71,11 +71,11 @@ public class Light : ILazyLoad
             shaders.lighting,
             EnabledLoc,
             Enabled ? 1 : 0,
-            ShaderUniformDataType.SHADER_UNIFORM_INT
+            ShaderUniformDataType.Int
         );
-        SetShaderValue(shaders.lighting, TypeLoc, (int)Type, ShaderUniformDataType.SHADER_UNIFORM_INT);
-        SetShaderValue(shaders.lighting, PosLoc, Position, ShaderUniformDataType.SHADER_UNIFORM_VEC3);
-        SetShaderValue(shaders.lighting, TargetLoc, Target, ShaderUniformDataType.SHADER_UNIFORM_VEC3);
+        SetShaderValue(shaders.lighting, TypeLoc, (int)Type, ShaderUniformDataType.Int);
+        SetShaderValue(shaders.lighting, PosLoc, Position, ShaderUniformDataType.Vec3);
+        SetShaderValue(shaders.lighting, TargetLoc, Target, ShaderUniformDataType.Vec3);
         float[] color = new[]
         {
                 (float)Color.R / (float)255,
@@ -83,7 +83,7 @@ public class Light : ILazyLoad
                 (float)Color.B / (float)255,
                 (float)Color.A / (float)255
             };
-        SetShaderValue(shaders.lighting, ColorLoc, color, ShaderUniformDataType.SHADER_UNIFORM_VEC4);
+        SetShaderValue(shaders.lighting, ColorLoc, color, ShaderUniformDataType.Vec4);
     }
 
     public void Dispose()

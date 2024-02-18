@@ -33,7 +33,7 @@ class RayPlane : IDrawableObject
     }
     unsafe public void OnDraw()
     {
-        DrawModelEx(model,Vector3.Zero,new Vector3(1,0,0),90,Vector3.One,Color.RED);
+        DrawModelEx(model,Vector3.Zero,new Vector3(1,0,0),90,Vector3.One,Color.Red);
     }
 
     public void Dispose()

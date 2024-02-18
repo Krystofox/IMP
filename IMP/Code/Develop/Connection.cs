@@ -22,7 +22,7 @@ class Connection
         WaitForConnection();
         while (!connected)
         {
-            ConnectionWaiter.WaitingConnectionScreen();   
+            ConnectionWaiter.WaitingConnectionScreen();
         }
     }
 
@@ -30,7 +30,7 @@ class Connection
     {
         blenderSocket = await server.AcceptTcpClientAsync();
         NetworkStream ns = blenderSocket.GetStream();
-        byte[] connMesage = new byte[1024];
+        byte[] connMesage = new byte[4096];
         connMesage = Encoding.Default.GetBytes("CONNECTED");
         ns.Write(connMesage, 0, connMesage.Length);
         connected = true;
@@ -38,6 +38,11 @@ class Connection
 
     public void Update()
     {
+        NetworkStream ns = blenderSocket.GetStream();
+        byte[] connMesage = new byte[1024];
+        connMesage = Encoding.Default.GetBytes("ALIVE");
+        ns.Write(connMesage, 0, connMesage.Length);
+
         /*if (!blenderSocket.Connected)
         {
             Console.WriteLine("NOT CONNECTED");

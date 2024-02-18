@@ -21,7 +21,7 @@ class ModelPlayer : IDrawableObject
     {
         model = LoadModel("assets/Models/PlayerModel/playerModel.m3d");
         Texture2D texture = LoadTexture("assets/Models/PlayerModel/playerTexture.png");
-        SetMaterialTexture(ref model,0,MaterialMapIndex.MATERIAL_MAP_DIFFUSE,ref texture);
+        SetMaterialTexture(ref model,0,MaterialMapIndex.Diffuse,ref texture);
         model.Materials[0].Shader = GetShaders().lighting;
         transform = model.Transform;
     }

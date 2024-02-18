@@ -14,19 +14,22 @@ namespace Game.GameLogic;
 
 class LanternObject : IUpdatableObject
 {
+    public uint Id { get; private set; }
+    public string Name => "Lantern";
     Light light;
     ModelLantern lanternModel = new ModelLantern();
     BodyHandle colisionMesh;
     public Vector3 Position;
     public LanternObject()
     {
+        Id = GetNewID();
         GetGResources().lazyObjects.Add(lanternModel);
         light = new Light(
             1,
             LightType.Point,
             new Vector3(0, 0, 0),
             Vector3.Zero,
-            Color.YELLOW
+            Color.Yellow
         );
 
         Box box = new Box(1, 1, 1);
@@ -42,7 +45,7 @@ class LanternObject : IUpdatableObject
         lanternModel.Draw();
         light.Position = Position;
         light.Update();
-        new ColisionMeshD(Position,new Vector3(1,1,1),GetPhysics().simulation.Bodies[colisionMesh].Pose.Orientation,Color.BLUE).Draw();
+        new ColisionMeshD(Position,new Vector3(1,1,1),GetPhysics().simulation.Bodies[colisionMesh].Pose.Orientation,Color.Blue).Draw();
     }
 
     public void Dispose()

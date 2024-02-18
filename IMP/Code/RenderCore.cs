@@ -15,12 +15,8 @@ class RenderCore
     {
         GraphicsState.Setup();
         // Initialize window
-        SetConfigFlags(ConfigFlags.FLAG_WINDOW_RESIZABLE);
+        SetConfigFlags(ConfigFlags.ResizableWindow);
         InitWindow(screenWidth, screenHeight, "IMP");
-        // TEMP
-        SetWindowPosition(1920, 0);
-        // _____________
-        //SetTargetFPS(60);
 
         //!!!OpenGL rendering functions can be only called on the same thread that created the window
         // Implement Forward+ shading
@@ -42,13 +38,13 @@ class RenderCore
 
         SetShaderValue(
                 shaders.lighting,
-                shaders.lighting.Locs[(int)ShaderLocationIndex.SHADER_LOC_VECTOR_VIEW],
+                shaders.lighting.Locs[(int)ShaderLocationIndex.VectorView],
                 gState.camera3D.Position,
-                ShaderUniformDataType.SHADER_UNIFORM_VEC3
+                ShaderUniformDataType.Vec3
             );
 
         BeginDrawing();
-        ClearBackground(Color.WHITE);
+        ClearBackground(Color.White);
         BeginMode3D(gState.camera3D);
         for (int i = 0; i < gState.dynamicObjects.Count; i++)
         {
@@ -73,10 +69,10 @@ class RenderCore
     private void DrawPerformanceStats()
     {
         DrawRectangle(10, 10, 200, 30 + 20 * 5, new Color(0, 0, 0, 20));
-        DrawText($"Logic time: {performanceStats.logicExec} ms", 15, 15 + 20 * 0, 20, Color.BLACK);
-        DrawText($"Render time: {performanceStats.renderExec} ms", 15, 15 + 20 * 1, 20, Color.BLACK);
-        DrawText($"FPS: {performanceStats.fps}", 15, 15 + 20 * 2, 20, Color.BLACK);
-        DrawText($"MEM: {performanceStats.memoryAloc} MB", 15, 15 + 20 * 3, 20, Color.BLACK);
+        DrawText($"Logic time: {performanceStats.logicExec} ms", 15, 15 + 20 * 0, 20, Color.Black);
+        DrawText($"Render time: {performanceStats.renderExec} ms", 15, 15 + 20 * 1, 20, Color.Black);
+        DrawText($"FPS: {performanceStats.fps}", 15, 15 + 20 * 2, 20, Color.Black);
+        DrawText($"MEM: {performanceStats.memoryAloc} MB", 15, 15 + 20 * 3, 20, Color.Black);
 
         graphRenderer.AddValueAvg(GetFrameTime() * 10);
         if (lastUpdateTime + 0.1 < GetTime())
@@ -84,7 +80,7 @@ class RenderCore
             graphRenderer.UpdateValueAvg();
             lastUpdateTime = GetTime();
         }
-        graphRenderer.Draw(15, 15 + 20 * 3, 200 - 15, 20 * 3, Color.RED);
+        graphRenderer.Draw(15, 15 + 20 * 3, 200 - 15, 20 * 3, Color.Red);
     }
 
 }

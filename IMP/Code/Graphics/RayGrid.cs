@@ -29,7 +29,7 @@ class RayGrid : IDrawableObject
         //EDITED RAYLIB FUNCTION ( Draw on Z axis )
         int halfSlices = slices / 2;
 
-        Begin(DrawMode.LINES);
+        Begin(DrawMode.Lines);
         for (int i = -halfSlices; i <= halfSlices; i++)
         {
             if (i == 0)

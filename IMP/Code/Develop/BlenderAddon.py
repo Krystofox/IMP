@@ -50,6 +50,7 @@ class ConnectionCode(bpy.types.Operator):
         except socket.error:
             return False
         return True
+    
     def server_loop(self,context):
         client = self._client
         response = client.recv(1024)

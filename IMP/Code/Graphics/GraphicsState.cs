@@ -38,7 +38,7 @@ class GraphicsState
         Target = new Vector3(0,0,0),
         Up = new Vector3(0,0,1),
         FovY = 45,
-        Projection = CameraProjection.CAMERA_PERSPECTIVE
+        Projection = CameraProjection.Perspective
     };
 
 }

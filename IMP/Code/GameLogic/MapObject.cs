@@ -14,28 +14,30 @@ namespace Game.GameLogic;
 
 class MapObject : IUpdatableObject
 {
-    Player player = new Player();
-    RayPlane plane = new RayPlane(50,50,1,1);
+    public uint Id { get; private set; }
+    public string Name => "Map";
+    RayPlane plane = new RayPlane(50, 50, 1, 1);
     Light light;
     public MapObject()
     {
+        Id = GetNewID();
         Physics phys = GetPhysics();
-        phys.simulation.Statics.Add(new StaticDescription(new Vector3(0,0,-1f), phys.simulation.Shapes.Add(new Box(100,100,2))));
+        phys.simulation.Statics.Add(new StaticDescription(new Vector3(0, 0, -1f), phys.simulation.Shapes.Add(new Box(100, 100, 2))));
         GetGResources().lazyObjects.Add(plane);
         light = new Light(
             0,
             LightType.Point,
             new Vector3(0, 0, 10),
             Vector3.Zero,
-            Color.WHITE
+            Color.White
         );
 
+        GetGameLogicThread().updatables.Add(new Player());
         GetGameLogicThread().updatables.Add(new LanternObject());
     }
 
     public void Update()
     {
-        player.Update();
         plane.Draw();
     }
 
