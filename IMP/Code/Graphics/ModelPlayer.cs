@@ -12,6 +12,7 @@ class ModelPlayer : IDrawableObject
     public Model model;
     public Matrix4x4 transform;
     public Vector3 Position = new Vector3(0,0,0);
+    public Quaternion Rotation;
     
     public ModelPlayer()
     {
@@ -33,7 +34,9 @@ class ModelPlayer : IDrawableObject
     unsafe public void OnDraw()
     {
         Matrix4x4 translation = Raymath.MatrixTranslate(Position.X,Position.Y,Position.Z);
-        DrawMesh(model.Meshes[0],model.Materials[0],translation);
+        Matrix4x4 rotation = Matrix4x4.CreateFromQuaternion(Rotation);
+        
+        DrawMesh(model.Meshes[0],model.Materials[0],Raymath.MatrixMultiply(rotation,translation));
     }
 
     public void Dispose()

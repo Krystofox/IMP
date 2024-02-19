@@ -43,6 +43,19 @@ class ObjManager(bpy.types.PropertyGroup):
         dumpFile.write(str(lenght)+"\n")
         for l in staticsT:
             dumpFile.write(l)
+        
+        hitbox = map.children["Hitbox"]
+        hitboxT = ""
+        lenght = 0
+        for h in hitbox.all_objects:
+            line = ""
+            line += ObjManager.getTransform(h)
+            line += '\n'
+            hitboxT += line
+            lenght += 1
+        dumpFile.write(str(lenght)+"\n")
+        for l in hitboxT:
+            dumpFile.write(l)
 
     def getTransform(obj):
             line = ""

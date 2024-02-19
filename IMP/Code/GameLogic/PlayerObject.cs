@@ -23,6 +23,7 @@ class Player : IUpdatableObject
     {
         playerController.Update();
         playerModel.Position = playerController.PlayerPosition;
+        playerModel.Rotation = playerController.PlayerRotation;
         playerModel.Draw();
         //Console.WriteLine(playerController.PlayerPosition);
     }

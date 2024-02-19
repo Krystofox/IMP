@@ -16,7 +16,7 @@ namespace Game.GameLogic;
 class PlayerController
 {
     public Vector3 PlayerPosition;
-    public Quaternion rotation;
+    public Quaternion PlayerRotation;
     BodyHandle colisionMesh;
     public PlayerController()
     {
@@ -69,14 +69,14 @@ class PlayerController
                 Vector2 up = new Vector2(0, 0);
                 // Not working
                 rot = GetVecAngle(up,lookVector);
-                rotation = Raymath.QuaternionFromEuler(0, 0, rot);
+                PlayerRotation = Raymath.QuaternionFromEuler(0, 0, rot);
             }
 
 
         }
 
         // Quick Bypass for orientation lock -- implement using constraints
-        phys.simulation.Bodies[colisionMesh].Pose.Orientation = rotation;
+        phys.simulation.Bodies[colisionMesh].Pose.Orientation = PlayerRotation;
         phys.simulation.Bodies[colisionMesh].ApplyLinearImpulse(new Vector3(movementV.X, movementV.Y, 0));
         PlayerPosition = phys.simulation.Bodies[colisionMesh].Pose.Position;
         new ColisionMeshD(PlayerPosition, new Vector3(1, 1, 2), phys.simulation.Bodies[colisionMesh].Pose.Orientation, Color.Blue).Draw();

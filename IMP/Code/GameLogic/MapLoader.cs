@@ -11,6 +11,7 @@ using Game.Graphics;
 using static Game.GameResources;
 using System.Globalization;
 using Game.GameLogic;
+using System.IO.Compression;
 
 namespace Game.GameLogic;
 
@@ -30,6 +31,24 @@ class MapLoader
             StaticModel s = new StaticModel(p[o++],GetVector(p[o++],p[o++],p[o++]),GetVector(p[o++],p[o++],p[o++]),GetVector(p[o++],p[o++],p[o++]));
             GetGResources().lazyObjects.Add(s);
             mapO.staticDraws.Add(s);
+        }
+
+        chunkEnd = offset + Convert.ToInt32(lines[offset]);
+        for (offset++; offset <= chunkEnd; offset++)
+        {
+            Console.WriteLine(lines[offset]);
+            string[] p = lines[offset].Split(';');
+            int o = 0;
+            Vector3 position = GetVector(p[o++],p[o++],p[o++]);
+            Vector3 rotation = GetVector(p[o++],p[o++],p[o++]);
+            Vector3 scale = GetVector(p[o++],p[o++],p[o++]);
+            Physics phys = GetPhysics();
+            RigidPose pose = new RigidPose
+            {
+                Position = position,
+                Orientation = Quaternion.CreateFromYawPitchRoll(rotation.Y, rotation.X, rotation.Z)
+            };
+            phys.simulation.Statics.Add(new StaticDescription(pose, phys.simulation.Shapes.Add(new Box(scale.X,scale.Y,scale.Z))));
         }
 
         GetGameLogicThread().updatables.Add(mapO);
