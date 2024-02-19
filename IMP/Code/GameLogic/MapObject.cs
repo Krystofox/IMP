@@ -38,7 +38,7 @@ class MapObject : IUpdatableObject
 
     public void Update()
     {
-        plane.Draw();
+        //plane.Draw();
         foreach (var sd in staticDraws)
         {
             GetStateL().dynamicObjects.Add(sd);
