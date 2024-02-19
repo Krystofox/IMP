@@ -22,7 +22,6 @@ class GameLogicThread
         //Send buffer to RenderCore
         physics = new Physics();
         physics.Initialize();
-        updatables.Add(new MapObject());
     }
 
     static uint LastID = 0;

@@ -14,8 +14,8 @@ class Main
     Process currentProcess;
     public Main()
     {
-        Connection connection = new Connection();
         //Map map = new Map("assets/Maps/dev_loading2");
+        GameLogic.MapLoader.LoadMap("dev_blend");
         lastTime = GetTime();
 
         logicThread.RunGameLogic();
@@ -24,7 +24,6 @@ class Main
         while (!WindowShouldClose())
         {
             SetPerformanceStats();
-            connection.Update();
             gameResources.LazyLoadObjects();
             GraphicsState.SwitchStates();
             logicThread.RunGameLogic();

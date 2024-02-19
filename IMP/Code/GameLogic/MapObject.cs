@@ -9,6 +9,7 @@ using Game.PhysicsMain;
 using static Game.PhysicsMain.Physics;
 using Game.Graphics;
 using static Game.GameResources;
+using static Game.Graphics.GraphicsState;
 
 namespace Game.GameLogic;
 
@@ -16,15 +17,16 @@ class MapObject : IUpdatableObject
 {
     public uint Id { get; private set; }
     public string Name => "Map";
-    //RayPlane plane = new RayPlane(50, 50, 1, 1);
+    RayPlane plane = new RayPlane(50, 50, 1, 1);
     RayGrid grid = new RayGrid(10,1);
     Light light;
+    public List<IDrawableObject> staticDraws = new List<IDrawableObject>();
     public MapObject()
     {
         Id = GetNewID();
         Physics phys = GetPhysics();
-        //phys.simulation.Statics.Add(new StaticDescription(new Vector3(0, 0, -1f), phys.simulation.Shapes.Add(new Box(100, 100, 2))));
-        //GetGResources().lazyObjects.Add(plane);
+        phys.simulation.Statics.Add(new StaticDescription(new Vector3(0, 0, -1f), phys.simulation.Shapes.Add(new Box(100, 100, 2))));
+        GetGResources().lazyObjects.Add(plane);
         light = new Light(
             0,
             LightType.Point,
@@ -36,7 +38,11 @@ class MapObject : IUpdatableObject
 
     public void Update()
     {
-        //plane.Draw();
+        plane.Draw();
+        foreach (var sd in staticDraws)
+        {
+            GetStateL().dynamicObjects.Add(sd);
+        }
         grid.Draw();
     }
 
