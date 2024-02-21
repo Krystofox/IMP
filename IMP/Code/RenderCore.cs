@@ -51,6 +51,12 @@ class RenderCore
             gState.dynamicObjects[i].OnDraw();
         }
         EndMode3D();
+
+        for (int i = 0; i < gState.uiObjects.Count; i++)
+        {
+            gState.uiObjects[i].OnDraw();
+        }
+
         DrawPerformanceStats();
         EndDrawing();
     }

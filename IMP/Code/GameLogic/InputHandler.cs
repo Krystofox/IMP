@@ -23,13 +23,13 @@ class InputHandler
     {
         Vector2 movementVector = new Vector2(0, 0);
         if (IsKeyDown(KeyboardKey.W))
-            movementVector += new Vector2(1, 0);
-        if (IsKeyDown(KeyboardKey.S))
-            movementVector += new Vector2(-1, 0);
-        if (IsKeyDown(KeyboardKey.A))
             movementVector += new Vector2(0, 1);
-        if (IsKeyDown(KeyboardKey.D))
+        if (IsKeyDown(KeyboardKey.S))
             movementVector += new Vector2(0, -1);
+        if (IsKeyDown(KeyboardKey.A))
+            movementVector += new Vector2(-1, 0);
+        if (IsKeyDown(KeyboardKey.D))
+            movementVector += new Vector2(1, 0);
         return movementVector;
     }
 

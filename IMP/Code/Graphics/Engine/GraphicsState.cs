@@ -32,9 +32,11 @@ class GraphicsState
 
     public List<IDrawableObject> staticObjects = new List<IDrawableObject>();
     public List<IDrawableObject> dynamicObjects = new List<IDrawableObject>();
+    public List<IDrawableObject> uiObjects = new List<IDrawableObject>();
     public Camera3D camera3D = new Camera3D()
     {
-        Position = new Vector3(5,-10,50),
+        //Position = new Vector3(5,-10,50),
+        Position = new Vector3(5,-5,5),
         Target = new Vector3(0,0,0),
         Up = new Vector3(0,0,1),
         FovY = 45,

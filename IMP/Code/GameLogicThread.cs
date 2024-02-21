@@ -4,7 +4,6 @@ using static Raylib_cs.Raylib;
 using System.Diagnostics;
 using Game.GameLogic;
 using static Game.Graphics.GraphicsState;
-using System.Data.Common;
 
 namespace Game;
 class GameLogicThread
@@ -53,6 +52,7 @@ class GameLogicThread
     {
         //Thread.Sleep(1000);
         GetStateL().dynamicObjects.Clear();
+        GetStateL().uiObjects.Clear();
         for (int i = 0; i < updatables.Count; i++)
         {
             updatables[i].Update();

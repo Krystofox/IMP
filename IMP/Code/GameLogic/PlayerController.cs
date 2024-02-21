@@ -8,7 +8,7 @@ using static Game.PhysicsMain.Physics;
 using static Game.GameLogic.InputHandler;
 using Game.PhysicsMain;
 using Game.Graphics;
-using System.Reflection.Metadata;
+using static Game.Graphics.GraphicsState;
 
 
 namespace Game.GameLogic;
@@ -45,13 +45,15 @@ class PlayerController
 
     bool jumped = false;
     float rot;
-    Vector2 lookV = new Vector2(0,1);
+    Vector2 lookVector = new Vector2(0,1);
     public void Update()
     {
         MouseLock();
         Physics phys = GetPhysics();
-        float multiplier = 0.1f;
+        float multiplier = GetFrameTime()*20;
         Vector2 movementV = GetInputHandler().GetMovementVector();
+        if(movementV != Vector2.Zero)
+            movementV = Vector2.Normalize(movementV);
         if (GetInputHandler().GetJump())
         {
             if (!jumped)
@@ -62,14 +64,15 @@ class PlayerController
         }
         else
             jumped = false;
-        if (mouseLock)
+
+        /*if (mouseLock)
         {
             Vector2 lookVector = GetInputHandler().GetLookVector();
             if (lookVector != Vector2.Zero)
             {
-                lookV = lookVector*20;
+                lookV += lookVector;
                 float rotSpeed = 50;
-                //lookV = Vector2.Clamp(lookV,Vector2.One*-rotSpeed,Vector2.One*rotSpeed);
+                lookV = Vector2.Clamp(lookV,Vector2.One*-rotSpeed,Vector2.One*rotSpeed);
                 Vector2 up = new Vector2(0, 0);
                 // Not working
                 rot = GetVecAngle(up,Vector2.Normalize(new Vector2(-lookV.X,-lookV.Y)));
@@ -77,10 +80,10 @@ class PlayerController
             }
 
 
-        }
+        }*/
 
-        // Quick Bypass for orientation lock -- implement using constraints
-        phys.simulation.Bodies[colisionMesh].Pose.Orientation = PlayerRotation;
+        
+        /*
         float rotat = rot;
         //Console.WriteLine(rotat);
         var ca = MathF.Cos(rotat);
@@ -91,12 +94,34 @@ class PlayerController
             moveN = Vector2.Normalize(move) * multiplier;
         new ColisionMeshD(new Vector3(moveN.X,moveN.Y,0)*10,new Vector3(0.5f,0.5f,0.5f),Quaternion.Zero,Color.Violet).Draw();
         new ColisionMeshD(new Vector3(lookV.X,lookV.Y,0)/10,new Vector3(0.5f,0.5f,0.5f),Quaternion.Zero,Color.Violet).Draw();
-        //phys.simulation.Bodies[colisionMesh].ApplyLinearImpulse(new Vector3(moveN.X, moveN.Y, 0));
+        */
+
+        lookVector += (movementV - lookVector)*GetFrameTime();
+
+        Vector2 lookVectorN  = lookVector;
+        if (lookVectorN != Vector2.Zero)
+            lookVectorN = Vector2.Normalize(lookVectorN);
+        
+        new RayLine(1920/2,1080/2,Convert.ToInt32(1920/2+lookVectorN.X*100),Convert.ToInt32(1080/2-lookVectorN.Y*100),Color.Red).Draw();
+
+        Vector2 up = new Vector2(0, 1);
+        rot = GetVecAngle(up,new Vector2(-lookVectorN.X,-lookVectorN.Y))*-2;
+        Console.WriteLine(rot);
+        PlayerRotation = Raymath.QuaternionFromEuler(0, 0, rot);
+
+        // Quick Bypass for orientation lock -- implement using constraints
+        phys.simulation.Bodies[colisionMesh].Pose.Orientation = PlayerRotation;
+        phys.simulation.Bodies[colisionMesh].ApplyLinearImpulse(new Vector3(movementV.X*multiplier, movementV.Y*multiplier, 0));
         PlayerPosition = phys.simulation.Bodies[colisionMesh].Pose.Position;
+        
+        GetStateL().camera3D.Target = PlayerPosition;
+        GetStateL().camera3D.Position = PlayerPosition + new Vector3(0,-7,10);
+
+
         new ColisionMeshD(PlayerPosition, new Vector3(1, 1, 2), phys.simulation.Bodies[colisionMesh].Pose.Orientation, Color.Blue).Draw();
     }
 
-    float GetVecAngle(Vector2 a, Vector2 b)
+    static float GetVecAngle(Vector2 a, Vector2 b)
     {
         return MathF.Atan2(b.Y - a.Y, b.X - a.X);
     }
