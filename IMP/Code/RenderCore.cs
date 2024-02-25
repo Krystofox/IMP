@@ -30,18 +30,18 @@ class RenderCore
         execTime.Stop();
     }
 
+    float deltaT = 0;
     unsafe public void DrawFrame()
     {
+        deltaT += GetFrameTime();
         // Its working, HOW?! (Thread Race condition)
         // Mabey has small chance for catastrophic failure
         GraphicsState gState = GetStateR();
 
-        SetShaderValue(
-                shaders.lighting,
-                shaders.lighting.Locs[(int)ShaderLocationIndex.VectorView],
-                gState.camera3D.Position,
-                ShaderUniformDataType.Vec3
-            );
+        shaders.SetVectorView(gState.camera3D.Position);
+        int deltaTloc = GetShaderLocation(shaders.foliage, "deltaT");
+        SetShaderValue(shaders.foliage, deltaTloc, deltaT, ShaderUniformDataType.Float);
+
 
         BeginDrawing();
         ClearBackground(Color.White);

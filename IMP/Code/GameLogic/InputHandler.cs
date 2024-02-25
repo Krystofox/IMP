@@ -36,7 +36,7 @@ class InputHandler
     Vector2 oldMousePos;
     public Vector2 GetLookVector()
     {
-        Vector2 lookVector = (GetMousePosition() - oldMousePos);
+        Vector2 lookVector = GetMousePosition() - oldMousePos;
         if(lookVector != Vector2.Zero)
             lookVector = Vector2.Normalize(lookVector);
         oldMousePos = GetMousePosition();
@@ -45,8 +45,10 @@ class InputHandler
 
     public bool GetJump()
     {
-        if (IsKeyDown(KeyboardKey.Space))
-            return true;
-        return false;
+        return IsKeyDown(KeyboardKey.Space);
+    }
+    public bool GetActionButton()
+    {
+        return IsKeyDown(KeyboardKey.Enter);
     }
 }

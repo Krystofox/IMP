@@ -66,24 +66,29 @@ public class Light : ILazyLoad
 
     public void UpdateLight()
     {
-        Shaders shaders = GetShaders();
-        SetShaderValue(
-            shaders.lighting,
+        Shaders s = GetShaders();
+        for (int i = 0; i < s.shaders.Length; i++)
+        {
+            Shader shader = s.shaders[i];
+
+            SetShaderValue(
+            shader,
             EnabledLoc,
             Enabled ? 1 : 0,
             ShaderUniformDataType.Int
         );
-        SetShaderValue(shaders.lighting, TypeLoc, (int)Type, ShaderUniformDataType.Int);
-        SetShaderValue(shaders.lighting, PosLoc, Position, ShaderUniformDataType.Vec3);
-        SetShaderValue(shaders.lighting, TargetLoc, Target, ShaderUniformDataType.Vec3);
-        float[] color = new[]
-        {
+            SetShaderValue(shader, TypeLoc, (int)Type, ShaderUniformDataType.Int);
+            SetShaderValue(shader, PosLoc, Position, ShaderUniformDataType.Vec3);
+            SetShaderValue(shader, TargetLoc, Target, ShaderUniformDataType.Vec3);
+            float[] color = new[]
+            {
                 (float)Color.R / (float)255,
                 (float)Color.G / (float)255,
                 (float)Color.B / (float)255,
                 (float)Color.A / (float)255
             };
-        SetShaderValue(shaders.lighting, ColorLoc, color, ShaderUniformDataType.Vec4);
+            SetShaderValue(shader, ColorLoc, color, ShaderUniformDataType.Vec4);
+        }
     }
 
     public void Dispose()

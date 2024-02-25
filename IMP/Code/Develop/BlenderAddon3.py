@@ -44,6 +44,20 @@ class ObjManager(bpy.types.PropertyGroup):
         for l in staticsT:
             dumpFile.write(l)
         
+        foliage = map.children["Foliage"]
+        foliagesT = ""
+        lenght = 0
+        for s in foliage.all_objects:
+            line = ""
+            line += s['Model'] + ';'
+            line += ObjManager.getTransform(s)
+            line += '\n'
+            foliagesT += line
+            lenght += 1
+        dumpFile.write(str(lenght)+"\n")
+        for l in foliagesT:
+            dumpFile.write(l)
+        
         hitbox = map.children["Hitbox"]
         hitboxT = ""
         lenght = 0

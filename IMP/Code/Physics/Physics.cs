@@ -16,11 +16,13 @@ class Physics : IDisposable
     public Simulation simulation;
     public ThreadDispatcher threadDispatcher;
     static Physics physInstance;
+    public CollidableProperty<ColisionObjectProperties> bodyProperties;
     public void Initialize()
     {
         physInstance = this;
         bufferPool = new BufferPool();
-        simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks(), new PoseIntegratorCallbacks(new Vector3(0, 0, -10f)), new SolveDescription(8, 1));
+        bodyProperties = new CollidableProperty<ColisionObjectProperties>();
+        simulation = Simulation.Create(bufferPool, new NarrowPhaseCallbacks() { Properties = bodyProperties }, new PoseIntegratorCallbacks(new Vector3(0, 0, -10f)), new SolveDescription(8, 1));
         threadDispatcher = new ThreadDispatcher(Environment.ProcessorCount);
     }
     public static Physics GetPhysics()

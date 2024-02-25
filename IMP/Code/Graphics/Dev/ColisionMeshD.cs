@@ -45,8 +45,7 @@ class ColisionMeshD : IDrawableObject
         Matrix4x4 rotation = Matrix4x4.CreateFromQuaternion(orientation);
         translation = Matrix4x4.Multiply(translation,rotation);
         translation = Matrix4x4.Multiply(translation,scale);
-        
-
+        model.Materials[0].Maps[(int)MaterialMapIndex.Diffuse].Color = color;
         DrawMesh(model.Meshes[0],model.Materials[0],translation);
 
         Rlgl.DisableWireMode();

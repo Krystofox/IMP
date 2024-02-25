@@ -23,7 +23,7 @@ class GameLogicThread
         physics.Initialize();
     }
 
-    static uint LastID = 0;
+    public static uint LastID = 0;
     public static uint GetNewID()
     {
         return LastID++;

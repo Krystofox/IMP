@@ -5,14 +5,21 @@ using BepuPhysics.CollisionDetection;
 using BepuPhysics.Constraints;
 using BepuUtilities;
 using System.Runtime.CompilerServices;
+using System.Net.Http.Headers;
 
 namespace Game.PhysicsMain;
 
+public struct ColisionObjectProperties
+{
+    public bool DetectionObject;
+    public uint ContactDetection;
+}
 unsafe struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
 {
+    public CollidableProperty<ColisionObjectProperties> Properties;
     public void Initialize(Simulation simulation)
     {
-
+        Properties.Initialize(simulation);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -30,9 +37,16 @@ unsafe struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public unsafe bool ConfigureContactManifold<TManifold>(int workerIndex, CollidablePair pair, ref TManifold manifold, out PairMaterialProperties pairMaterial) where TManifold : unmanaged, IContactManifold<TManifold>
     {
+        
         pairMaterial.FrictionCoefficient = 1f;
         pairMaterial.MaximumRecoveryVelocity = 2f;
         pairMaterial.SpringSettings = new SpringSettings(30, 1);
+
+        if (Properties[pair.B.StaticHandle].DetectionObject == true)
+        {
+            GameLogic.IContactDetection.contactDetections[(int)Properties[pair.B.StaticHandle].ContactDetection].Contact(pair.A.BodyHandle);
+            return false;
+        }
         return true;
     }
 
@@ -44,6 +58,7 @@ unsafe struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
 
     public void Dispose()
     {
+        Properties.Dispose();
     }
 }
 
@@ -64,7 +79,7 @@ public struct PoseIntegratorCallbacks : IPoseIntegratorCallbacks
     public float LinearDamping;
     public float AngularDamping;
 
-    public PoseIntegratorCallbacks(Vector3 gravity, float linearDamping = 0.9f, float angularDamping = .03f) : this()
+    public PoseIntegratorCallbacks(Vector3 gravity, float linearDamping = 0.9f, float angularDamping = 0.03f) : this()
     {
         Gravity = gravity;
         LinearDamping = linearDamping;

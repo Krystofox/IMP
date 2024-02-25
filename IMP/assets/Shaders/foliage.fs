@@ -38,24 +38,24 @@ uniform Light lights[MAX_LIGHTS];
 uniform vec4 ambient;
 uniform vec3 viewPos;
 
+
+uniform float deltaT;
+
 vec4 aContrast(vec4 color, float value) {
   return vec4(0.5 + (1.0 + value) * (color.rgb - 0.5),color.a);
 }
 
-vec4 aBrightness(vec4 color, float value) {
-  return vec4(color.rgb + value, color.a);
-}
-
-vec4 aSaturation(vec4 color, float value) {
-    const vec3 luminosityFactor = vec3(0.2126, 0.7152, 0.0722);
-    vec3 grayscale = vec3(dot(color.rgb, luminosityFactor));
-    return vec4(mix(grayscale, color.rgb, 1.0 + value),color.a);
-}
-
 void main()
 {
-    // Texel color fetching from texture sampler
-    vec4 texelColor = texture(texture0, fragTexCoord);
+    vec2 Size = vec2(256,128);
+    vec2 Wave = vec2(48,5);
+
+    vec2 texCoord = fragTexCoord + vec2(cos((fragPosition.y/Wave.x+deltaT)*6.2831)*Wave.y,0.0)/Size*(1.0-fragTexCoord.y);
+    vec4 texelColor = texture(texture0, texCoord);
+    if (texelColor.a == 0.0){
+        discard;
+    }
+    texelColor.a = 1.0;
     vec3 lightDot = vec3(0.0);
     vec3 normal = normalize(fragNormal);
     vec3 viewD = normalize(viewPos - fragPosition);
@@ -83,7 +83,7 @@ void main()
             lightDot += lights[i].color.rgb*NdotL;
 
             float specCo = 0.0;
-            if (NdotL > 0.0) specCo = pow(max(0.0, dot(viewD, reflect(-(light), normal))), 1.0); // 16 refers to shine
+            if (NdotL > 0.0) specCo = pow(max(0.0, dot(viewD, reflect(-(light), normal))), 16.0); // 16 refers to shine
             specular += specCo;
         }
     }
@@ -93,7 +93,12 @@ void main()
 
     // Gamma correction
     finalColor = pow(finalColor, vec4(1.0/2.2));
-    //finalColor = aBrightness(finalColor,-0.1);
-    //finalColor = aContrast(finalColor,0.0);
-    //finalColor = aSaturation(finalColor,-0.2);
+
+    //finalColor = aContrast(finalColor,0.5);
+    
+
+    
+
+    //Display uv
+    //finalColor = vec4(fragTexCoord.x,fragTexCoord.y,0.0,1.0);
 }

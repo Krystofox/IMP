@@ -11,7 +11,6 @@ using Game.Graphics;
 using static Game.GameResources;
 using System.Globalization;
 using Game.GameLogic;
-using System.IO.Compression;
 
 namespace Game.GameLogic;
 
@@ -39,6 +38,18 @@ class MapLoader
             Console.WriteLine(lines[offset]);
             string[] p = lines[offset].Split(';');
             int o = 0;
+            FoliageDrawable s = new FoliageDrawable(p[o++],GetVector(p[o++],p[o++],p[o++]),GetVector(p[o++],p[o++],p[o++]),GetVector(p[o++],p[o++],p[o++]));
+            //StaticModel s = new StaticModel(p[o++],GetVector(p[o++],p[o++],p[o++]),GetVector(p[o++],p[o++],p[o++]),GetVector(p[o++],p[o++],p[o++]));
+            GetGResources().lazyObjects.Add(s);
+            mapO.staticDraws.Add(s);
+        }
+
+        chunkEnd = offset + Convert.ToInt32(lines[offset]);
+        for (offset++; offset <= chunkEnd; offset++)
+        {
+            Console.WriteLine(lines[offset]);
+            string[] p = lines[offset].Split(';');
+            int o = 0;
             Vector3 position = GetVector(p[o++],p[o++],p[o++]);
             Vector3 rotation = GetVector(p[o++],p[o++],p[o++]);
             Vector3 scale = GetVector(p[o++],p[o++],p[o++]);
@@ -51,9 +62,13 @@ class MapLoader
             phys.simulation.Statics.Add(new StaticDescription(pose, phys.simulation.Shapes.Add(new Box(scale.X,scale.Y,scale.Z))));
         }
 
+
         GetGameLogicThread().updatables.Add(mapO);
         GetGameLogicThread().updatables.Add(new Player());
-        GetGameLogicThread().updatables.Add(new LanternObject());
+        GetGameLogicThread().updatables.Add(new SmallRockObject(new Vector3(10,-2.5f,0.5f)));
+        GetGameLogicThread().updatables.Add(new Puzzle1Object());
+        DetectionContact detectionObject = new DetectionContact();
+        
     }
 
     static Vector3 GetVector(string a, string b, string c)
