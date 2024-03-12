@@ -11,8 +11,10 @@ namespace Game.PhysicsMain;
 
 public struct ColisionObjectProperties
 {
+    public bool AllowCollision;
     public bool DetectionObject;
-    public uint ContactDetection;
+    public bool DetectedContact;
+    public bool DetectedAction;
 }
 unsafe struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
 {
@@ -41,10 +43,11 @@ unsafe struct NarrowPhaseCallbacks : INarrowPhaseCallbacks
         pairMaterial.FrictionCoefficient = 1f;
         pairMaterial.MaximumRecoveryVelocity = 2f;
         pairMaterial.SpringSettings = new SpringSettings(30, 1);
-
-        if (Properties[pair.B.StaticHandle].DetectionObject == true)
+        if (pair.B.Mobility == CollidableMobility.Static && Properties[pair.B.StaticHandle].DetectionObject == true)
         {
-            GameLogic.IContactDetection.contactDetections[(int)Properties[pair.B.StaticHandle].ContactDetection].Contact(pair.A.BodyHandle);
+            Properties[pair.B.StaticHandle].DetectedContact = true;
+            if (Properties[pair.B.StaticHandle].AllowCollision)
+                return true;
             return false;
         }
         return true;

@@ -15,7 +15,7 @@ class Main
     public Main()
     {
         //Map map = new Map("assets/Maps/dev_loading2");
-        GameLogic.MapLoader.LoadMap("dev_blend");
+        GameLogic.MapLoader.LoadMap("dev_blend2");
         lastTime = GetTime();
 
         logicThread.RunGameLogic();

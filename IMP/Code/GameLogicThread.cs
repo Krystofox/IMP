@@ -28,6 +28,16 @@ class GameLogicThread
     {
         return LastID++;
     }
+
+    public IUpdatableObject? GetUpdatableByName(string Name)
+    {
+        foreach (var u in updatables)
+        {
+            if(u.Name == Name)
+                return u;
+        }
+        return null;
+    }
     public static GameLogicThread GetGameLogicThread()
     {
         return GLT_instance;

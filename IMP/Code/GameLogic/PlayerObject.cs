@@ -11,7 +11,7 @@ class Player : IUpdatableObject
 {
     public uint Id { get; private set; }
     public string Name => "Player";
-    PlayerController playerController = new PlayerController();
+    public PlayerController playerController = new PlayerController();
     ModelPlayer playerModel = new ModelPlayer();
     public Player()
     {

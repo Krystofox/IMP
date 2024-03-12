@@ -7,46 +7,51 @@ using static Game.PhysicsMain.Physics;
 
 namespace Game.GameLogic;
 
-class DetectionContact : IContactDetection
+class DetectionContact
 {
     StaticHandle colisionMesh;
-    public Vector3 Position;
 
-    public uint Id { get; private set; }
-
-    public DetectionContact()
+    public DetectionContact(Vector3 Position,Vector3 Rotation,Vector3 Size, bool AllowCollision = false)
     {
-        Id = (uint)IContactDetection.contactDetections.Count;
-        IContactDetection.contactDetections.Add(this);
         Physics phys = GetPhysics();
-        Box box = new Box(2, 2, 2);
+        Box box = new Box(Size.X,Size.Y,Size.Z);
         RigidPose pose = new RigidPose
         {
-            Position = new Vector3(0,0,0)
+            Position = Position,
+            Orientation = Quaternion.CreateFromYawPitchRoll(Rotation.Y, Rotation.X, Rotation.Z)
         };
         colisionMesh = phys.simulation.Statics.Add(new StaticDescription(pose, phys.simulation.Shapes.Add(box)));
         ref var sProperties = ref phys.bodyProperties.Allocate(colisionMesh);
-        sProperties = new ColisionObjectProperties();
-        sProperties.DetectionObject = true;
-        sProperties.ContactDetection = Id;
-        
-        //ref var sProperties = ref phys.bodyProperties.Allocate(colisionMesh);
-        //sProperties.DetectionObject = true;
-
+        sProperties = new ColisionObjectProperties
+        {
+            AllowCollision = AllowCollision,
+            DetectionObject = true,
+            DetectedContact = false,
+            DetectedAction = false
+        };
     }
 
-    public void Update()
+    public bool ContactDetected()
     {
-
+        Physics phys = GetPhysics();
+        ref var sProperties = ref phys.bodyProperties[colisionMesh];
+        if (sProperties.DetectedContact)
+        {
+            sProperties.DetectedContact = false;
+            return true;
+        }
+        return false;
     }
 
-    public void Dispose()
+    public bool ActionDetected()
     {
-
-    }
-
-    public void Contact(BodyHandle contactObject)
-    {
-        
+        Physics phys = GetPhysics();
+        ref var sProperties = ref phys.bodyProperties[colisionMesh];
+        if (sProperties.DetectedAction)
+        {
+            sProperties.DetectedAction = false;
+            return true;
+        }
+        return false;
     }
 }

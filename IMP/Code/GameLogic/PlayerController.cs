@@ -27,6 +27,12 @@ class PlayerController
         DisableCursor();
     }
 
+    public void SetPlayerPosition(Vector3 pos)
+    {
+        Physics phys = GetPhysics();
+        phys.simulation.Bodies[colisionMesh].Pose.Position = pos;
+    }
+
     bool mouseLock = true;
     public void MouseLock()
     {
@@ -93,8 +99,13 @@ class PlayerController
             phys.simulation.RayCast(PlayerPosition + new Vector3(lookVectorN.X, lookVectorN.Y, 0.5f), new Vector3(0, 0, -1f), 1, ref hitHandler, 0);
             if (hitHandler.Hit.Hit)
             {
-                if(hitHandler.Hit.Collidable.Mobility == CollidableMobility.Dynamic)
-                    phys.simulation.Bodies[hitHandler.Hit.Collidable.BodyHandle].Pose.Position = PlayerPosition + new Vector3(lookVectorN.X*1.5f, lookVectorN.Y*1.5f, 0.5f);
+                CollidableReference collidable = hitHandler.Hit.Collidable;
+                if (collidable.Mobility == CollidableMobility.Dynamic)
+                    phys.simulation.Bodies[hitHandler.Hit.Collidable.BodyHandle].Pose.Position = PlayerPosition + new Vector3(lookVectorN.X * 1.5f, lookVectorN.Y * 1.5f, 0.5f);
+                else
+                    if (phys.bodyProperties[collidable].DetectionObject == true)
+                        phys.bodyProperties[collidable].DetectedAction = true;
+
             }
         }
         new RayLine3D(PlayerPosition + new Vector3(lookVectorN.X, lookVectorN.Y, 0.5f), PlayerPosition + new Vector3(lookVectorN.X, lookVectorN.Y, -0.5f), Color.Red).Draw();
@@ -106,7 +117,7 @@ class PlayerController
 
         GetStateL().camera3D.Target = PlayerPosition;
         GetStateL().camera3D.Position = PlayerPosition + new Vector3(0, -7, 10);
-        
+
 
         new ColisionMeshD(PlayerPosition, new Vector3(1, 1, 2), phys.simulation.Bodies[colisionMesh].Pose.Orientation, Color.Blue).Draw();
     }

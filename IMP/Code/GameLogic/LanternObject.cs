@@ -20,9 +20,10 @@ class LanternObject : IUpdatableObject
     ModelLantern lanternModel = new ModelLantern();
     BodyHandle colisionMesh;
     public Vector3 Position;
-    public LanternObject()
+    public LanternObject(Vector3 position)
     {
         Id = GetNewID();
+        Position = position;
         GetGResources().lazyObjects.Add(lanternModel);
         light = new Light(
             1,
