@@ -41,6 +41,7 @@ class Physics : IDisposable
         simulation.Dispose();
         threadDispatcher.Dispose();
         bufferPool.Clear();
+        bodyProperties.Dispose();
     }
 }
 

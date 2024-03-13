@@ -16,6 +16,14 @@ namespace Game.GameLogic;
 
 class MapLoader
 {
+    public static void ChangeLevel(string level)
+    {
+        GetGameLogicThread().updatables.Clear();
+        GetPhysics().Dispose();
+        GetPhysics().Initialize();
+
+        LoadMap(level);
+    }
     public static void LoadMap(string map_path)
     {
         MapObject mapO = new MapObject();
@@ -84,6 +92,7 @@ class MapLoader
                 GetGameLogicThread().updatables.Add(new Puzzle2Object());
                 GetGameLogicThread().updatables.Add(new Puzzle3Object());
                 GetGameLogicThread().updatables.Add(new FollowLight());
+                GetGameLogicThread().updatables.Add(new ChangeLevelObject(new Vector3(20,-45,0),new Vector3(2,2,2),"dev_blend2"));
                 
                 break;
             case "dev_blend2":
@@ -92,6 +101,8 @@ class MapLoader
                 player2.playerController.SetPlayerPosition(new Vector3(0, 0, 2));
                 GetGameLogicThread().updatables.Add(player2);
                 GetGameLogicThread().updatables.Add(new LanternObject(new Vector3(0, 0, 2)));
+                GetGameLogicThread().updatables.Add(new Puzzle4Object());
+                GetGameLogicThread().updatables.Add(new Puzzle5Object());
                 break;
         }
     }
