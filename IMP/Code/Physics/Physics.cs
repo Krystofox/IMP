@@ -1,17 +1,12 @@
 using System.Numerics;
 using BepuPhysics;
-using BepuPhysics.Collidables;
-using BepuPhysics.CollisionDetection;
-using BepuPhysics.Constraints;
 using BepuUtilities;
 using BepuUtilities.Memory;
-using System.Globalization;
 
 namespace Game.PhysicsMain;
 
 class Physics : IDisposable
 {
-    // Change UP vector to Z+
     public BufferPool bufferPool;
     public Simulation simulation;
     public ThreadDispatcher threadDispatcher;
@@ -33,7 +28,6 @@ class Physics : IDisposable
     public void SimulationStep()
     {
         simulation.Timestep(0.01f, threadDispatcher);
-        //simulation.IncrementallyOptimizeDataStructures(threadDispatcher);
     }
 
     public void Dispose()

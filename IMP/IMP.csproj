@@ -7,6 +7,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <NoWarn>IDE0044,IDE0090,IDE0251</NoWarn>
     <PublishSingleFile>true</PublishSingleFile>
+    <!--<DefineConstants>HITBOX</DefineConstants>-->
+    
   </PropertyGroup>
 
   <ItemGroup>

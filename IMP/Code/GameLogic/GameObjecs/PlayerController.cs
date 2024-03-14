@@ -1,7 +1,6 @@
 using System.Numerics;
 using BepuPhysics;
 using BepuPhysics.Collidables;
-using BepuUtilities;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Game.PhysicsMain.Physics;
@@ -9,7 +8,6 @@ using static Game.GameLogic.InputHandler;
 using Game.PhysicsMain;
 using Game.Graphics;
 using static Game.Graphics.GraphicsState;
-
 
 namespace Game.GameLogic;
 
@@ -29,8 +27,7 @@ class PlayerController
 
     public void SetPlayerPosition(Vector3 pos)
     {
-        Physics phys = GetPhysics();
-        phys.simulation.Bodies[colisionMesh].Pose.Position = pos;
+        GetPhysics().simulation.Bodies[colisionMesh].Pose.Position = pos;
     }
 
     bool mouseLock = true;
@@ -87,8 +84,6 @@ class PlayerController
         if (lookVectorN != Vector2.Zero)
             lookVectorN = Vector2.Normalize(lookVectorN);
 
-        //new RayLine(1920 / 2, 1080 / 2, Convert.ToInt32(1920 / 2 + lookVectorN.X * 100), Convert.ToInt32(1080 / 2 - lookVectorN.Y * 100), Color.Red).Draw();
-
         Vector2 up = new Vector2(0, 1);
         rot = GetVecAngle(up, new Vector2(-lookVectorN.X, -lookVectorN.Y)) * -2;
         PlayerRotation = Raymath.QuaternionFromEuler(0, 0, rot);
@@ -108,18 +103,20 @@ class PlayerController
 
             }
         }
-        new RayLine3D(PlayerPosition + new Vector3(lookVectorN.X, lookVectorN.Y, 0.5f), PlayerPosition + new Vector3(lookVectorN.X, lookVectorN.Y, -0.5f), Color.Red).Draw();
+        
+        #if HITBOX
+            new RayLine3D(PlayerPosition + new Vector3(lookVectorN.X, lookVectorN.Y, 0.5f), PlayerPosition + new Vector3(lookVectorN.X, lookVectorN.Y, -0.5f), Color.Red).Draw();
+        #endif
 
-        // Quick Bypass for orientation lock -- implement using constraints
         phys.simulation.Bodies[colisionMesh].Pose.Orientation = PlayerRotation;
         phys.simulation.Bodies[colisionMesh].ApplyLinearImpulse(new Vector3(movementV.X * multiplier, movementV.Y * multiplier, 0));
         PlayerPosition = phys.simulation.Bodies[colisionMesh].Pose.Position;
-
         GetStateL().camera3D.Target = PlayerPosition;
         GetStateL().camera3D.Position = PlayerPosition + new Vector3(0, -7, 10);
 
-
-        new ColisionMeshD(PlayerPosition, new Vector3(1, 1, 2), phys.simulation.Bodies[colisionMesh].Pose.Orientation, Color.Blue).Draw();
+        #if HITBOX
+            new ColisionMeshD(PlayerPosition, new Vector3(1, 1, 2), phys.simulation.Bodies[colisionMesh].Pose.Orientation, Color.Blue).Draw();
+        #endif
     }
 
     static float GetVecAngle(Vector2 a, Vector2 b)

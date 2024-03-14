@@ -7,21 +7,19 @@ using static Game.Graphics.Shaders;
 
 
 namespace Game.Graphics;
-class ModelButtonPart1 : IDrawableObject
+class ModelLantern : IDrawableObject
 {
     public Model model;
     public Matrix4x4 transform;
     public Vector3 Position = new Vector3(0,0,0);
-    public Vector3 Rotation = new Vector3(0,0,0);
-    public ModelButtonPart1()
+    
+    public ModelLantern()
     {
 
     }
     unsafe public void Initialize()
     {
-        model = LoadModel("assets/Models/ButtonPart1/buttonpart1_model.m3d");
-        Texture2D texture = LoadTexture("assets/Models/ButtonPart1/buttonpart1_diffuse.png");
-        SetMaterialTexture(ref model,0,MaterialMapIndex.Diffuse,ref texture);
+        model = HelperFunctions.LoadModel("Lantern");
         model.Materials[0].Shader = GetShaders().lighting;
         transform = model.Transform;
     }
@@ -32,8 +30,6 @@ class ModelButtonPart1 : IDrawableObject
     unsafe public void OnDraw()
     {
         Matrix4x4 translation = Raymath.MatrixTranslate(Position.X,Position.Y,Position.Z);
-        Matrix4x4 rotation = Matrix4x4.CreateFromYawPitchRoll(-Rotation.Y, -Rotation.X, Rotation.Z);
-        translation = Matrix4x4.Multiply(translation,rotation);
         DrawMesh(model.Meshes[0],model.Materials[0],translation);
     }
 

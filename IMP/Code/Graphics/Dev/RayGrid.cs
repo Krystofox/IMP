@@ -1,7 +1,4 @@
-using System.Numerics;
-using Game.Graphics;
 using Raylib_cs;
-using static Raylib_cs.Raylib;
 using static Game.Graphics.GraphicsState;
 using static Raylib_cs.Rlgl;
 
@@ -46,13 +43,6 @@ class RayGrid : IDrawableObject
                 Color3f(0.75f, 0.75f, 0.75f);
                 Color3f(0.75f, 0.75f, 0.75f);
             }
-
-            
-            /*Vertex3f((float)i * spacing, 0.0f, (float)-halfSlices * spacing);
-            Vertex3f((float)i * spacing, 0.0f, (float)halfSlices * spacing);
-
-            Vertex3f((float)-halfSlices * spacing, 0.0f, (float)i * spacing);
-            Vertex3f((float)halfSlices * spacing, 0.0f, (float)i * spacing);*/
 
             Vertex3f((float)i * spacing, (float)-halfSlices * spacing, 0);
             Vertex3f((float)i * spacing, (float)halfSlices * spacing, 0);

@@ -1,10 +1,7 @@
 using System.Numerics;
 using BepuPhysics;
 using BepuPhysics.Collidables;
-using BepuUtilities;
 using Raylib_cs;
-using static Raylib_cs.Raylib;
-using static Game.GameLogicThread;
 using Game.PhysicsMain;
 using static Game.PhysicsMain.Physics;
 using Game.Graphics;
@@ -14,7 +11,6 @@ namespace Game.GameLogic;
 
 class LanternObject : IUpdatableObject
 {
-    public uint Id { get; private set; }
     public string Name => "Lantern";
     Light light;
     ModelLantern lanternModel = new ModelLantern();
@@ -22,7 +18,6 @@ class LanternObject : IUpdatableObject
     public Vector3 Position;
     public LanternObject(Vector3 position)
     {
-        Id = GetNewID();
         Position = position;
         GetGResources().lazyObjects.Add(lanternModel);
         light = new Light(
@@ -46,11 +41,14 @@ class LanternObject : IUpdatableObject
         lanternModel.Draw();
         light.Position = Position;
         light.Update();
-        new ColisionMeshD(Position,new Vector3(1,1,1),GetPhysics().simulation.Bodies[colisionMesh].Pose.Orientation,Color.Blue).Draw();
+        #if HITBOX
+            new ColisionMeshD(Position,new Vector3(1,1,1),GetPhysics().simulation.Bodies[colisionMesh].Pose.Orientation,Color.Blue).Draw();
+        #endif
     }
 
     public void Dispose()
     {
-        GetGameLogicThread().updatables.Remove(this);
+        lanternModel.Dispose();
+        light.Dispose();
     }
 }

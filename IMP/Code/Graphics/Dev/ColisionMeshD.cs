@@ -1,9 +1,7 @@
 using System.Numerics;
-using Game.Graphics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Game.Graphics.GraphicsState;
-using static Game.Graphics.Shaders;
 using static Game.GameResources;
 
 namespace Game.Graphics;

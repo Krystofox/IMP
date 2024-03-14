@@ -1,21 +1,17 @@
 using System.Numerics;
-using BepuUtilities;
 using Game.Graphics;
 using Raylib_cs;
 using static Game.GameLogicThread;
-using static Game.GameResources;
 
 namespace Game.GameLogic;
 
 class FollowLight : IUpdatableObject
 {
-    public uint Id { get; private set; }
     public string Name => "FollowLight";
     Light light;
     Player player;
     public FollowLight()
     {
-        Id = GetNewID();
         player = (Player)GetGameLogicThread().GetUpdatableByName("Player");
         light = new Light(
             0,
@@ -34,6 +30,6 @@ class FollowLight : IUpdatableObject
 
     public void Dispose()
     {
-        throw new NotImplementedException();
+        light.Dispose();
     }
 }

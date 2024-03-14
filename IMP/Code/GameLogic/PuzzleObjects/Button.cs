@@ -1,12 +1,5 @@
 using System.Numerics;
-using BepuPhysics;
-using BepuPhysics.Collidables;
-using BepuUtilities;
 using Raylib_cs;
-using static Raylib_cs.Raylib;
-using static Game.GameLogicThread;
-using Game.PhysicsMain;
-using static Game.PhysicsMain.Physics;
 using Game.Graphics;
 using static Game.GameResources;
 
@@ -14,7 +7,6 @@ namespace Game.GameLogic;
 
 class ButtonObject : IUpdatableObject
 {
-    public uint Id { get; private set; }
     public string Name => "Button";
     ModelButtonPart1 buttonPart1 = new ModelButtonPart1();
     ModelButtonPart2 buttonPart2 = new ModelButtonPart2();
@@ -22,18 +14,11 @@ class ButtonObject : IUpdatableObject
     DetectionContact buttonTrigger;
     public ButtonObject(Vector3 position)
     {
-        Id = GetNewID();
         Position = position;
         GetGResources().lazyObjects.Add(buttonPart1);
         GetGResources().lazyObjects.Add(buttonPart2);
 
         buttonTrigger = new DetectionContact(position, new Vector3(0, 0, 0), new Vector3(2, 2, 10), true);
-
-        //Box box = new Box(1, 1, 1);
-        //BodyInertia intertia = box.ComputeInertia(1f);
-        //Physics phys = GetPhysics();
-        //colisionMesh = phys.simulation.Bodies.Add(BodyDescription.CreateDynamic(position, intertia, phys.simulation.Shapes.Add(box), 0f));
-        //colisionMesh = phys.simulation.Bodies.Add(BodyDescription.CreateKinematic(position, phys.simulation.Shapes.Add(box), -1));
     }
     public bool Triggered = false;
     bool waitForUnpress = false;
@@ -62,13 +47,15 @@ class ButtonObject : IUpdatableObject
             buttonPart2.Position = Position + new Vector3(0, 0, 2);
         }
         buttonPart2.Draw();
-
-        new ColisionMeshD(Position, new Vector3(2, 2, 10), Quaternion.Identity, Color.Blue).Draw();
+        #if HITBOX
+            new ColisionMeshD(Position, new Vector3(2, 2, 10), Quaternion.Identity, Color.Blue).Draw();
+        #endif
     }
 
 
     public void Dispose()
     {
-        GetGameLogicThread().updatables.Remove(this);
+        buttonPart1.Dispose();
+        buttonPart2.Dispose();
     }
 }

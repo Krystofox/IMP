@@ -4,7 +4,6 @@ using BepuPhysics.Collidables;
 using Game.PhysicsMain;
 using static Game.PhysicsMain.Physics;
 
-
 namespace Game.GameLogic;
 
 class DetectionContact
@@ -33,8 +32,7 @@ class DetectionContact
 
     public bool ContactDetected()
     {
-        Physics phys = GetPhysics();
-        ref var sProperties = ref phys.bodyProperties[colisionMesh];
+        ref var sProperties = ref GetPhysics().bodyProperties[colisionMesh];
         if (sProperties.DetectedContact)
         {
             sProperties.DetectedContact = false;
@@ -45,8 +43,7 @@ class DetectionContact
 
     public bool ActionDetected()
     {
-        Physics phys = GetPhysics();
-        ref var sProperties = ref phys.bodyProperties[colisionMesh];
+        ref var sProperties = ref GetPhysics().bodyProperties[colisionMesh];
         if (sProperties.DetectedAction)
         {
             sProperties.DetectedAction = false;

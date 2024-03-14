@@ -7,27 +7,23 @@ using static Game.Graphics.Shaders;
 
 
 namespace Game.Graphics;
-class ModelSmallRock : IDrawableObject
+class ModelButtonPart1 : IDrawableObject
 {
     public Model model;
     public Matrix4x4 transform;
     public Vector3 Position = new Vector3(0,0,0);
-    
-    public ModelSmallRock()
+    public ModelButtonPart1()
     {
 
     }
     unsafe public void Initialize()
     {
-        model = LoadModel("assets/Models/SmallRock/smallrock_model.m3d");
-        Texture2D texture = LoadTexture("assets/Models/SmallRock/smallrock_diffuse.png");
-        SetMaterialTexture(ref model,0,MaterialMapIndex.Diffuse,ref texture);
+        model = HelperFunctions.LoadModel("ButtonPart1");
         model.Materials[0].Shader = GetShaders().lighting;
         transform = model.Transform;
     }
     public void Draw()
     {
-        //GetStateL().dynamicObjects.Add((ModelPlayer)Clone());
         GetStateL().dynamicObjects.Add(this);
     }
     unsafe public void OnDraw()

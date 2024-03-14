@@ -7,21 +7,20 @@ using static Game.Graphics.Shaders;
 
 
 namespace Game.Graphics;
-class ModelPressurePlate : IDrawableObject
+class ModelPlayer : IDrawableObject
 {
     public Model model;
     public Matrix4x4 transform;
     public Vector3 Position = new Vector3(0,0,0);
-    public Vector3 Rotation = new Vector3(0,0,0);
-    public ModelPressurePlate()
+    public Quaternion Rotation;
+    
+    public ModelPlayer()
     {
-
+        
     }
     unsafe public void Initialize()
     {
-        model = LoadModel("assets/Models/PressurePlate/pressureplate_model.m3d");
-        Texture2D texture = LoadTexture("assets/Models/PressurePlate/pressureplate_diffuse.png");
-        SetMaterialTexture(ref model,0,MaterialMapIndex.Diffuse,ref texture);
+        model = HelperFunctions.LoadModel("PlayerModel");
         model.Materials[0].Shader = GetShaders().lighting;
         transform = model.Transform;
     }
@@ -32,9 +31,8 @@ class ModelPressurePlate : IDrawableObject
     unsafe public void OnDraw()
     {
         Matrix4x4 translation = Raymath.MatrixTranslate(Position.X,Position.Y,Position.Z);
-        Matrix4x4 rotation = Matrix4x4.CreateFromYawPitchRoll(-Rotation.Y, -Rotation.X, Rotation.Z);
-        translation = Matrix4x4.Multiply(translation,rotation);
-        DrawMesh(model.Meshes[0],model.Materials[0],translation);
+        Matrix4x4 rotation = Matrix4x4.CreateFromQuaternion(Rotation);
+        DrawMesh(model.Meshes[0],model.Materials[0],Raymath.MatrixMultiply(rotation,translation));
     }
 
     public void Dispose()

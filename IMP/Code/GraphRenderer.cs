@@ -5,7 +5,6 @@ using static System.Convert;
 namespace Game;
 class GraphRenderer
 {
-    // Rewrite to use less cpu
     double[] graphData;
     int selected;
     public GraphRenderer(int graphLenght)
@@ -47,8 +46,6 @@ class GraphRenderer
 
     public void Draw(int posX,int posY,int width,int height,Color color)
     {
-        //Rewrite to single draw call
-        //Make smooth line animation
         int rGraphLenght = graphData.Length-1;
         double chunkLenX = (double)width/rGraphLenght;
         double lastVal = GetItemArrayShuffled(1);

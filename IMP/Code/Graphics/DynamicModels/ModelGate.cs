@@ -7,22 +7,19 @@ using static Game.Graphics.Shaders;
 
 
 namespace Game.Graphics;
-class ModelButtonPart2 : IDrawableObject
+class ModelGate : IDrawableObject
 {
     public Model model;
     public Matrix4x4 transform;
     public Vector3 Position = new Vector3(0,0,0);
-    public Quaternion Orientation = Quaternion.Identity;
     
-    public ModelButtonPart2()
+    public ModelGate()
     {
 
     }
     unsafe public void Initialize()
     {
-        model = LoadModel("assets/Models/ButtonPart2/buttonpart2_model.m3d");
-        Texture2D texture = LoadTexture("assets/Models/ButtonPart2/buttonpart2_diffuse.png");
-        SetMaterialTexture(ref model,0,MaterialMapIndex.Diffuse,ref texture);
+        model = HelperFunctions.LoadModel("Gate");
         model.Materials[0].Shader = GetShaders().lighting;
         transform = model.Transform;
     }
@@ -33,8 +30,6 @@ class ModelButtonPart2 : IDrawableObject
     unsafe public void OnDraw()
     {
         Matrix4x4 translation = Raymath.MatrixTranslate(Position.X,Position.Y,Position.Z);
-        Matrix4x4 rotation = Matrix4x4.CreateFromQuaternion(Orientation);
-        translation = Matrix4x4.Multiply(translation,rotation);
         DrawMesh(model.Meshes[0],model.Materials[0],translation);
     }
 

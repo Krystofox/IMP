@@ -3,7 +3,6 @@ using Game.Graphics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Game.Graphics.GraphicsState;
-using System.Numerics;
 
 namespace Game;
 class RenderCore
@@ -14,12 +13,8 @@ class RenderCore
     public RenderCore()
     {
         GraphicsState.Setup();
-        // Initialize window
         SetConfigFlags(ConfigFlags.ResizableWindow);
         InitWindow(screenWidth, screenHeight, "IMP");
-
-        //!!!OpenGL rendering functions can be only called on the same thread that created the window
-        // Implement Forward+ shading
         shaders = new Shaders();
     }
     public Stopwatch execTime = new Stopwatch();
@@ -34,8 +29,6 @@ class RenderCore
     unsafe public void DrawFrame()
     {
         deltaT += GetFrameTime();
-        // Its working, HOW?! (Thread Race condition)
-        // Mabey has small chance for catastrophic failure
         GraphicsState gState = GetStateR();
 
         shaders.SetVectorView(gState.camera3D.Position);

@@ -1,8 +1,6 @@
 using System.Numerics;
-using Game.Graphics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Game.Graphics.GraphicsState;
 
 namespace Game.Graphics;
 class Shaders

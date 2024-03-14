@@ -1,28 +1,37 @@
 using System.Numerics;
 using BepuPhysics;
 using BepuPhysics.Collidables;
-using BepuUtilities;
-using Raylib_cs;
-using static Raylib_cs.Raylib;
 using static Game.GameLogicThread;
 using Game.PhysicsMain;
 using static Game.PhysicsMain.Physics;
 using Game.Graphics;
 using static Game.GameResources;
 using System.Globalization;
-using Game.GameLogic;
 
 namespace Game.GameLogic;
 
 class MapLoader
 {
-    public static void ChangeLevel(string level)
+    static bool changeLevel = false;
+    static string changedLevel = "";
+    public static void ChangeLevelLazy(string level)
     {
+        changeLevel = true;
+        changedLevel = level;
+    }
+    public static void ChangeLevelCheck()
+    {
+        if(!changeLevel)
+            return;
+        changeLevel = false;
+
+        /*foreach (var u in GetGameLogicThread().updatables)
+            u.Dispose();*/
         GetGameLogicThread().updatables.Clear();
         GetPhysics().Dispose();
         GetPhysics().Initialize();
 
-        LoadMap(level);
+        LoadMap(changedLevel);
     }
     public static void LoadMap(string map_path)
     {
@@ -32,7 +41,6 @@ class MapLoader
         int chunkEnd = offset + Convert.ToInt32(lines[offset]);
         for (offset++; offset <= chunkEnd; offset++)
         {
-            Console.WriteLine(lines[offset]);
             string[] p = lines[offset].Split(';');
             int o = 0;
             StaticModel s = new StaticModel(p[o++], GetVector(p[o++], p[o++], p[o++]), GetVector(p[o++], p[o++], p[o++]), GetVector(p[o++], p[o++], p[o++]));
@@ -43,11 +51,9 @@ class MapLoader
         chunkEnd = offset + Convert.ToInt32(lines[offset]);
         for (offset++; offset <= chunkEnd; offset++)
         {
-            Console.WriteLine(lines[offset]);
             string[] p = lines[offset].Split(';');
             int o = 0;
             FoliageDrawable s = new FoliageDrawable(p[o++], GetVector(p[o++], p[o++], p[o++]), GetVector(p[o++], p[o++], p[o++]), GetVector(p[o++], p[o++], p[o++]));
-            //StaticModel s = new StaticModel(p[o++],GetVector(p[o++],p[o++],p[o++]),GetVector(p[o++],p[o++],p[o++]),GetVector(p[o++],p[o++],p[o++]));
             GetGResources().lazyObjects.Add(s);
             mapO.staticDraws.Add(s);
         }
@@ -55,7 +61,6 @@ class MapLoader
         chunkEnd = offset + Convert.ToInt32(lines[offset]);
         for (offset++; offset <= chunkEnd; offset++)
         {
-            Console.WriteLine(lines[offset]);
             string[] p = lines[offset].Split(';');
             int o = 0;
             Vector3 position = GetVector(p[o++], p[o++], p[o++]);
@@ -83,17 +88,16 @@ class MapLoader
             case "dev_blend":
                 GetGameLogicThread().updatables.Add(mapO);
                 Player player = new Player();
-                //player.playerController.SetPlayerPosition(new Vector3(28, -55, 2));
-                player.playerController.SetPlayerPosition(new Vector3(0, 0, 2));
+                //player.playerController.SetPlayerPosition(new Vector3(0, 0, 2));
+                player.playerController.SetPlayerPosition(new Vector3(21f, -51f, 0f));
                 GetGameLogicThread().updatables.Add(player);
-
                 GetGameLogicThread().updatables.Add(new SmallRockObject(new Vector3(10, -2.5f, 0.5f)));
                 GetGameLogicThread().updatables.Add(new Puzzle1Object());
                 GetGameLogicThread().updatables.Add(new Puzzle2Object());
                 GetGameLogicThread().updatables.Add(new Puzzle3Object());
                 GetGameLogicThread().updatables.Add(new FollowLight());
-                GetGameLogicThread().updatables.Add(new ChangeLevelObject(new Vector3(20,-45,0),new Vector3(2,2,2),"dev_blend2"));
-                
+                GetGameLogicThread().updatables.Add(new ChangeLevelObject(new Vector3(20, -45, 0), new Vector3(2, 2, 2), "dev_blend2"));
+
                 break;
             case "dev_blend2":
                 GetGameLogicThread().updatables.Add(mapO);

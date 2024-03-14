@@ -7,32 +7,32 @@ using static Game.Graphics.Shaders;
 
 
 namespace Game.Graphics;
-class ModelLantern : IDrawableObject
+class ModelButtonPart2 : IDrawableObject
 {
     public Model model;
     public Matrix4x4 transform;
     public Vector3 Position = new Vector3(0,0,0);
+    public Quaternion Orientation = Quaternion.Identity;
     
-    public ModelLantern()
+    public ModelButtonPart2()
     {
 
     }
     unsafe public void Initialize()
     {
-        model = LoadModel("assets/Models/Lantern/lantern.m3d");
-        Texture2D texture = LoadTexture("assets/Models/Lantern/lanternTexture.png");
-        SetMaterialTexture(ref model,0,MaterialMapIndex.Diffuse,ref texture);
+        model = HelperFunctions.LoadModel("ButtonPart2");
         model.Materials[0].Shader = GetShaders().lighting;
         transform = model.Transform;
     }
     public void Draw()
     {
-        //GetStateL().dynamicObjects.Add((ModelPlayer)Clone());
         GetStateL().dynamicObjects.Add(this);
     }
     unsafe public void OnDraw()
     {
         Matrix4x4 translation = Raymath.MatrixTranslate(Position.X,Position.Y,Position.Z);
+        Matrix4x4 rotation = Matrix4x4.CreateFromQuaternion(Orientation);
+        translation = Matrix4x4.Multiply(translation,rotation);
         DrawMesh(model.Meshes[0],model.Materials[0],translation);
     }
 

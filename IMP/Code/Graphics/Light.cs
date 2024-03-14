@@ -37,7 +37,6 @@ public class Light : ILazyLoad
         Color = color;
         LightId = lightId;
         GetGResources().lazyObjects.Add(this);
-        //GOOD FOR NOW ( Implement light managment and dynamic unloading )
     }
     public void Initialize()
     {
@@ -80,19 +79,19 @@ public class Light : ILazyLoad
             SetShaderValue(shader, TypeLoc, (int)Type, ShaderUniformDataType.Int);
             SetShaderValue(shader, PosLoc, Position, ShaderUniformDataType.Vec3);
             SetShaderValue(shader, TargetLoc, Target, ShaderUniformDataType.Vec3);
-            float[] color = new[]
-            {
-                (float)Color.R / (float)255,
-                (float)Color.G / (float)255,
-                (float)Color.B / (float)255,
-                (float)Color.A / (float)255
-            };
+            float[] color =
+            [
+                Color.R / (float)255,
+                Color.G / (float)255,
+                Color.B / (float)255,
+                Color.A / (float)255
+            ];
             SetShaderValue(shader, ColorLoc, color, ShaderUniformDataType.Vec4);
         }
     }
 
     public void Dispose()
     {
-        throw new NotImplementedException();
+        
     }
 }
