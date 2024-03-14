@@ -1,6 +1,8 @@
 using Game.Graphics;
 using static Game.GameResources;
 using static Game.GameLogicThread;
+using static Game.GameLogic.InputHandler;
+using System.Net.Http.Headers;
 
 namespace Game.GameLogic;
 
@@ -16,6 +18,11 @@ class IntroObject : IUpdatableObject
     int delay = 0;
     public void Update()
     {
+        if (GetInputHandler().GetActionButton())
+        {
+            GetGameLogicThread().updatables.Remove(this);
+            return;
+        }
         switch (animationPart)
         {
             case 0:

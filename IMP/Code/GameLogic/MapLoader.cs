@@ -87,8 +87,8 @@ class MapLoader
         {
             case "dev_blend":
                 Player player = new Player();
-                //player.playerController.SetPlayerPosition(new Vector3(0, 0, 2));
-                player.playerController.SetPlayerPosition(new Vector3(21f, -51f, 0f));
+                player.playerController.SetPlayerPosition(new Vector3(0, 0, 2));
+                //player.playerController.SetPlayerPosition(new Vector3(21f, -51f, 0f));
                 GetGameLogicThread().updatables.Add(player);
                 GetGameLogicThread().updatables.Add(new SmallRockObject(new Vector3(10, -2.5f, 0.5f)));
                 GetGameLogicThread().updatables.Add(new Puzzle1Object());

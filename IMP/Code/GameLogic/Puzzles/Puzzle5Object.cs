@@ -9,10 +9,10 @@ class Puzzle5Object : IUpdatableObject
     public string Name => "Puzzle5";
     PressurePlateObject[,] plates = new PressurePlateObject[4, 4];
     bool[,] solution = {
+        {false,false,false,true},
+        {false,true,true,false},
         {false,false,false,false},
-        {false,true,false,false},
-        {false,false,false,false},
-        {false,false,false,false},
+        {true,false,true,false},
     };
     GateObject gate1 = new GateObject(new Vector3(64f, -81f, 0f));
     public Puzzle5Object()
@@ -26,8 +26,8 @@ class Puzzle5Object : IUpdatableObject
         for (int y = 0; y < 4; y++)
             for (int x = 0; x < 4; x++)
             {
-                PressurePlateObject plate = new PressurePlateObject(new Vector3(58 + x*2, -65 + y*2, 0));
-                plates[x,y] = plate;
+                PressurePlateObject plate = new PressurePlateObject(new Vector3(58 + x*2, -65 - y*2, 0));
+                plates[y,x] = plate;
                 GetGameLogicThread().updatables.Add(plate);
             }
     }
@@ -38,7 +38,7 @@ class Puzzle5Object : IUpdatableObject
         for (int y = 0; y < 4; y++)
             for (int x = 0; x < 4; x++)
             {
-                if(plates[x,y].IsPushed != solution[x,y])
+                if(plates[y,x].IsPushed != solution[y,x])
                     solved = false;
             }
         gate1.IsOpen = solved;
