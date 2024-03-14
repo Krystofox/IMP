@@ -93,12 +93,4 @@ void main()
 
     // Gamma correction
     finalColor = pow(finalColor, vec4(1.0/2.2));
-
-    //finalColor = aContrast(finalColor,0.5);
-    
-
-    
-
-    //Display uv
-    //finalColor = vec4(fragTexCoord.x,fragTexCoord.y,0.0,1.0);
 }
