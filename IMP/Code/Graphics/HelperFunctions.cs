@@ -8,7 +8,7 @@ public class HelperFunctions
     public static Model LoadModel(string modelName)
     {
         string modelLower = modelName.ToLower();
-        Model model = LoadModel($"assets/Models/{modelName}/{modelLower}_model.m3d");
+        Model model = Raylib.LoadModel($"assets/Models/{modelName}/{modelLower}_model.m3d");
         string path = $"assets/Models/{modelName}/{modelLower}_diffuse.png";
         if(File.Exists(path))
         {
