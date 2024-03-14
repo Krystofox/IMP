@@ -7,6 +7,7 @@ using static Game.PhysicsMain.Physics;
 using Game.Graphics;
 using static Game.GameResources;
 using System.Globalization;
+using static Game.Graphics.GraphicsState;
 
 namespace Game.GameLogic;
 
@@ -28,6 +29,7 @@ class MapLoader
         /*foreach (var u in GetGameLogicThread().updatables)
             u.Dispose();*/
         GetGameLogicThread().updatables.Clear();
+        ClearStaticObjects();
         GetPhysics().Dispose();
         GetPhysics().Initialize();
 
@@ -35,7 +37,6 @@ class MapLoader
     }
     public static void LoadMap(string map_path)
     {
-        MapObject mapO = new MapObject();
         string[] lines = File.ReadAllLines("assets/Maps/" + map_path + "/map.dump");
         int offset = 0;
         int chunkEnd = offset + Convert.ToInt32(lines[offset]);
@@ -44,8 +45,7 @@ class MapLoader
             string[] p = lines[offset].Split(';');
             int o = 0;
             StaticModel s = new StaticModel(p[o++], GetVector(p[o++], p[o++], p[o++]), GetVector(p[o++], p[o++], p[o++]), GetVector(p[o++], p[o++], p[o++]));
-            GetGResources().lazyObjects.Add(s);
-            mapO.staticDraws.Add(s);
+            AddStaticObject(s);
         }
 
         chunkEnd = offset + Convert.ToInt32(lines[offset]);
@@ -55,7 +55,7 @@ class MapLoader
             int o = 0;
             FoliageDrawable s = new FoliageDrawable(p[o++], GetVector(p[o++], p[o++], p[o++]), GetVector(p[o++], p[o++], p[o++]), GetVector(p[o++], p[o++], p[o++]));
             GetGResources().lazyObjects.Add(s);
-            mapO.staticDraws.Add(s);
+            AddStaticObject(s);
         }
 
         chunkEnd = offset + Convert.ToInt32(lines[offset]);
@@ -86,7 +86,6 @@ class MapLoader
         switch (map_path)
         {
             case "dev_blend":
-                GetGameLogicThread().updatables.Add(mapO);
                 Player player = new Player();
                 //player.playerController.SetPlayerPosition(new Vector3(0, 0, 2));
                 player.playerController.SetPlayerPosition(new Vector3(21f, -51f, 0f));
@@ -97,16 +96,17 @@ class MapLoader
                 GetGameLogicThread().updatables.Add(new Puzzle3Object());
                 GetGameLogicThread().updatables.Add(new FollowLight());
                 GetGameLogicThread().updatables.Add(new ChangeLevelObject(new Vector3(20, -45, 0), new Vector3(2, 2, 2), "dev_blend2"));
+                GetGameLogicThread().updatables.Add(new IntroObject());
 
                 break;
             case "dev_blend2":
-                GetGameLogicThread().updatables.Add(mapO);
                 Player player2 = new Player();
                 player2.playerController.SetPlayerPosition(new Vector3(0, 0, 2));
                 GetGameLogicThread().updatables.Add(player2);
-                GetGameLogicThread().updatables.Add(new LanternObject(new Vector3(0, 0, 2)));
                 GetGameLogicThread().updatables.Add(new Puzzle4Object());
                 GetGameLogicThread().updatables.Add(new Puzzle5Object());
+                GetGameLogicThread().updatables.Add(new NormalLight(new Vector3(0,0,1)));
+                GetGameLogicThread().updatables.Add(new EndingObject(new Vector3(61,-84,0),new Vector3(6,4,10)));
                 break;
         }
     }

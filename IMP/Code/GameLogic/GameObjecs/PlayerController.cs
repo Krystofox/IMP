@@ -6,7 +6,6 @@ using static Raylib_cs.Raylib;
 using static Game.PhysicsMain.Physics;
 using static Game.GameLogic.InputHandler;
 using Game.PhysicsMain;
-using Game.Graphics;
 using static Game.Graphics.GraphicsState;
 
 namespace Game.GameLogic;
@@ -15,6 +14,7 @@ class PlayerController
 {
     public Vector3 PlayerPosition;
     public Quaternion PlayerRotation;
+    public bool PlayerLock = false;
     BodyHandle colisionMesh;
     public PlayerController()
     {
@@ -53,8 +53,9 @@ class PlayerController
     public void Update()
     {
         MouseLock();
+        if(PlayerLock)
+            return;
         Physics phys = GetPhysics();
-
         float multiplier = GetFrameTime() * 20;
 
         Vector2 movementV = GetInputHandler().GetMovementVector();

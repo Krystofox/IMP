@@ -37,8 +37,12 @@ class RenderCore
 
 
         BeginDrawing();
-        ClearBackground(Color.White);
+        ClearBackground(Color.Black);
         BeginMode3D(gState.camera3D);
+        for (int i = 0; i < gState.staticObjects.Count; i++)
+        {
+            gState.staticObjects[i].OnDraw();
+        }
         for (int i = 0; i < gState.dynamicObjects.Count; i++)
         {
             gState.dynamicObjects[i].OnDraw();

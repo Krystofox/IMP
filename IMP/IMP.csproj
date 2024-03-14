@@ -15,14 +15,4 @@
     <PackageReference Include="BepuPhysics" Version="2.4.0" />
     <PackageReference Include="Raylib-cs" Version="6.0.0" />
   </ItemGroup>
-   <!--
-  <ItemGroup>
-    <Reference Include="BepuPhysics">
-      <HintPath>libs/Bepu/BepuPhysics.dll</HintPath>
-    </Reference>
-    <Reference Include="BepuUtilities">
-      <HintPath>libs/Bepu/BepuUtilities.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  -->
 </Project>

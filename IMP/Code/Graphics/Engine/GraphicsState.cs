@@ -30,6 +30,20 @@ class GraphicsState
         (logicState,renderState) = (renderState,logicState);
     }
 
+    public static void AddStaticObject(IDrawableObject staticObject)
+    {
+        staticObject.Initialize();
+        GetStateL().staticObjects.Add(staticObject);
+        GetStateR().staticObjects.Add(staticObject);
+    }
+
+    public static void ClearStaticObjects()
+    {
+        GetStateL().staticObjects.Clear();
+        GetStateR().staticObjects.Clear();
+    }
+
+
     public List<IDrawableObject> staticObjects = new List<IDrawableObject>();
     public List<IDrawableObject> dynamicObjects = new List<IDrawableObject>();
     public List<IDrawableObject> uiObjects = new List<IDrawableObject>();
