@@ -8,6 +8,7 @@ class GameLogicThread
 {
     static GameLogicThread GLT_instance;
     InputHandler inputHandler = new InputHandler();
+    AudioHandler audioHandler = new AudioHandler();
     private Physics physics;
     Thread thread;
     public List<IUpdatableObject> updatables = new List<IUpdatableObject>();

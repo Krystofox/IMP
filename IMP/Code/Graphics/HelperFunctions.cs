@@ -15,13 +15,6 @@ public class HelperFunctions
             Texture2D diffuse = LoadTexture(path);
             SetMaterialTexture(ref model,0,MaterialMapIndex.Diffuse,ref diffuse);
         }
-
-        path = $"assets/Models/{modelName}/{modelLower}_normal.png";
-        if(File.Exists(path))
-        {
-            Texture2D normal = LoadTexture(path);
-            SetMaterialTexture(ref model,0,MaterialMapIndex.Normal,ref normal);
-        }
         return model;
     }
 }

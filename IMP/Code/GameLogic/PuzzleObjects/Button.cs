@@ -2,6 +2,7 @@ using System.Numerics;
 using Raylib_cs;
 using Game.Graphics;
 using static Game.GameResources;
+using static Game.GameLogic.AudioHandler;
 
 namespace Game.GameLogic;
 
@@ -33,6 +34,7 @@ class ButtonObject : IUpdatableObject
             if (waitForUnpress)
             {
                 Triggered = !Triggered;
+                GetAudioHandler().PlaySoundM("bop");
                 waitForUnpress = false;
             }
         }
