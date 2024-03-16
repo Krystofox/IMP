@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using BepuPhysics;
 using Game.Graphics;
@@ -42,8 +43,7 @@ class GraphicsState
         GetStateL().staticObjects.Clear();
         GetStateR().staticObjects.Clear();
     }
-
-
+    public bool DisplayPerformanceStats = false;
     public List<IDrawableObject> staticObjects = new List<IDrawableObject>();
     public List<IDrawableObject> dynamicObjects = new List<IDrawableObject>();
     public List<IDrawableObject> uiObjects = new List<IDrawableObject>();

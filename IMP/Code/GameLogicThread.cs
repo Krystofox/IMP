@@ -9,6 +9,7 @@ class GameLogicThread
     static GameLogicThread GLT_instance;
     InputHandler inputHandler = new InputHandler();
     AudioHandler audioHandler = new AudioHandler();
+    public bool DisplayPerformanceStats = false;
     private Physics physics;
     Thread thread;
     public List<IUpdatableObject> updatables = new List<IUpdatableObject>();
@@ -50,6 +51,7 @@ class GameLogicThread
     {
         GetStateL().dynamicObjects.Clear();
         GetStateL().uiObjects.Clear();
+        GetStateL().DisplayPerformanceStats = DisplayPerformanceStats;
         for (int i = 0; i < updatables.Count; i++)
         {
             updatables[i].Update();

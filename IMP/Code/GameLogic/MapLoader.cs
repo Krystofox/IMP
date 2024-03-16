@@ -101,8 +101,8 @@ class MapLoader
                 break;
             case "dev_blend2":
                 Player player2 = new Player();
-                //player2.playerController.SetPlayerPosition(new Vector3(5, -5, 5));
-                player2.playerController.SetPlayerPosition(new Vector3(61, -85, 2));
+                player2.playerController.SetPlayerPosition(new Vector3(5, -5, 5));
+                //player2.playerController.SetPlayerPosition(new Vector3(61, -85, 2));
                 GetGameLogicThread().updatables.Add(player2);
                 GetGameLogicThread().updatables.Add(new Puzzle4Object());
                 GetGameLogicThread().updatables.Add(new Puzzle5Object());

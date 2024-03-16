@@ -56,7 +56,8 @@ class RenderCore
             gState.uiObjects[i].OnDraw();
         }
 
-        DrawPerformanceStats();
+        if(gState.DisplayPerformanceStats)
+            DrawPerformanceStats();
         EndDrawing();
     }
 

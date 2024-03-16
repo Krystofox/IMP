@@ -7,6 +7,7 @@ using static Game.PhysicsMain.Physics;
 using static Game.GameLogic.InputHandler;
 using Game.PhysicsMain;
 using static Game.Graphics.GraphicsState;
+using static Game.GameLogicThread;
 using Game.Graphics;
 
 namespace Game.GameLogic;
@@ -39,10 +40,15 @@ class PlayerController
             mouseLock = !mouseLock;
             if (mouseLock)
             {
+                GetGameLogicThread().DisplayPerformanceStats = false;
                 DisableCursor();
             }
             else
+            {
+                GetGameLogicThread().DisplayPerformanceStats = true;
                 EnableCursor();
+            }
+
         }
 
     }
@@ -54,10 +60,11 @@ class PlayerController
     public void Update()
     {
         MouseLock();
-        if(PlayerLock)
+        if (PlayerLock)
             return;
         Physics phys = GetPhysics();
-        float multiplier = GetFrameTime() * 20;
+        float multiplier = 0.12f;
+        float multiplier2 = 0.12f / 20;
 
         Vector2 movementV = GetInputHandler().GetMovementVector();
         if (movementV != Vector2.Zero)
@@ -78,9 +85,9 @@ class PlayerController
             }
         }
         else
-            jumpInterval += GetFrameTime();
+            jumpInterval += multiplier2;
 
-        lookVector += (movementV - lookVector) * GetFrameTime();
+        lookVector += (movementV - lookVector) * multiplier2;
 
         Vector2 lookVectorN = lookVector;
         if (lookVectorN != Vector2.Zero)
@@ -101,14 +108,14 @@ class PlayerController
                     phys.simulation.Bodies[hitHandler.Hit.Collidable.BodyHandle].Pose.Position = PlayerPosition + new Vector3(lookVectorN.X * 1.5f, lookVectorN.Y * 1.5f, 0.5f);
                 else
                     if (phys.bodyProperties[collidable].DetectionObject == true)
-                        phys.bodyProperties[collidable].DetectedAction = true;
+                    phys.bodyProperties[collidable].DetectedAction = true;
 
             }
         }
-        
-        #if HITBOX
+
+#if HITBOX
             new RayLine3D(PlayerPosition + new Vector3(lookVectorN.X, lookVectorN.Y, 0.5f), PlayerPosition + new Vector3(lookVectorN.X, lookVectorN.Y, -0.5f), Color.Red).Draw();
-        #endif
+#endif
 
         phys.simulation.Bodies[colisionMesh].Pose.Orientation = PlayerRotation;
         phys.simulation.Bodies[colisionMesh].ApplyLinearImpulse(new Vector3(movementV.X * multiplier, movementV.Y * multiplier, 0));
@@ -116,9 +123,9 @@ class PlayerController
         GetStateL().camera3D.Target = PlayerPosition;
         GetStateL().camera3D.Position = PlayerPosition + new Vector3(0, -7, 10);
 
-        #if HITBOX
+#if HITBOX
             new ColisionMeshD(PlayerPosition, new Vector3(1, 1, 2), phys.simulation.Bodies[colisionMesh].Pose.Orientation, Color.Blue).Draw();
-        #endif
+#endif
     }
 
     static float GetVecAngle(Vector2 a, Vector2 b)
