@@ -29,16 +29,6 @@ class InputHandler
         return movementVector;
     }
 
-    Vector2 oldMousePos;
-    public Vector2 GetLookVector()
-    {
-        Vector2 lookVector = GetMousePosition() - oldMousePos;
-        if(lookVector != Vector2.Zero)
-            lookVector = Vector2.Normalize(lookVector);
-        oldMousePos = GetMousePosition();
-        return lookVector;
-    }
-
     public bool GetJump()
     {
         return IsKeyDown(KeyboardKey.Space);
@@ -46,5 +36,15 @@ class InputHandler
     public bool GetActionButton()
     {
         return IsKeyDown(KeyboardKey.Enter);
+    }
+
+    Vector2 oldMousePos;
+    public Vector2 GetLookVector()
+    {
+        Vector2 lookVector = GetMousePosition() - oldMousePos;
+        if (lookVector != Vector2.Zero)
+            lookVector = Vector2.Normalize(lookVector);
+        oldMousePos = GetMousePosition();
+        return lookVector;
     }
 }

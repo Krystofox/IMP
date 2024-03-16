@@ -95,17 +95,19 @@ class MapLoader
                 GetGameLogicThread().updatables.Add(new Puzzle2Object());
                 GetGameLogicThread().updatables.Add(new Puzzle3Object());
                 GetGameLogicThread().updatables.Add(new FollowLight());
-                GetGameLogicThread().updatables.Add(new ChangeLevelObject(new Vector3(20, -45, 0), new Vector3(2, 2, 2), "dev_blend2"));
+                GetGameLogicThread().updatables.Add(new ChangeLevelObject(new Vector3(20, -45, -10), new Vector3(10, 10, 2), "dev_blend2"));
                 GetGameLogicThread().updatables.Add(new IntroObject());
 
                 break;
             case "dev_blend2":
                 Player player2 = new Player();
-                player2.playerController.SetPlayerPosition(new Vector3(0, 0, 2));
+                //player2.playerController.SetPlayerPosition(new Vector3(5, -5, 5));
+                player2.playerController.SetPlayerPosition(new Vector3(61, -85, 2));
                 GetGameLogicThread().updatables.Add(player2);
                 GetGameLogicThread().updatables.Add(new Puzzle4Object());
                 GetGameLogicThread().updatables.Add(new Puzzle5Object());
-                GetGameLogicThread().updatables.Add(new NormalLight(new Vector3(0,0,1)));
+                GetGameLogicThread().updatables.Add(new NormalLight(new Vector3(5,-5,5)));
+                GetGameLogicThread().updatables.Add(new FollowLight());
                 GetGameLogicThread().updatables.Add(new EndingObject(new Vector3(61,-84,0),new Vector3(6,4,10)));
                 break;
         }

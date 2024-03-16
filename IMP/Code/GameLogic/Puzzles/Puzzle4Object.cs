@@ -9,7 +9,7 @@ class Puzzle4Object : IUpdatableObject
     PressurePlateObject[,] plates = new PressurePlateObject[3, 3];
     bool[,] solution = {
         {false,false,true},
-        {false,false,false},
+        {true,true,false},
         {false,false,false}
     };
     GateObject gate1 = new GateObject(new Vector3(4.3f, -20f, 0f));

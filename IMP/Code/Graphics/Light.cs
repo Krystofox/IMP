@@ -7,31 +7,22 @@ using static Game.GameResources;
 
 namespace Game.Graphics;
 
-public enum LightType
-{
-    Directorional,
-    Point
-}
-
 public class Light : ILazyLoad
 {
     public bool Enabled;
-    public LightType Type;
     public Vector3 Position;
     public Vector3 Target;
     public Color Color;
 
     public int EnabledLoc;
-    public int TypeLoc;
     public int PosLoc;
     public int TargetLoc;
     public int ColorLoc;
     public int LightId;
 
-    public Light(int lightId, LightType type, Vector3 position, Vector3 target, Color color)
+    public Light(int lightId, Vector3 position, Vector3 target, Color color)
     {
         Enabled = true;
-        Type = type;
         Position = position;
         Target = target;
         Color = color;
@@ -44,13 +35,11 @@ public class Light : ILazyLoad
         {
             Shaders shaders = GetShaders();
             string enabledName = "lights[" + LightId + "].enabled";
-            string typeName = "lights[" + LightId + "].type";
             string posName = "lights[" + LightId + "].position";
             string targetName = "lights[" + LightId + "].target";
             string colorName = "lights[" + LightId + "].color";
 
             EnabledLoc = GetShaderLocation(shaders.lighting, enabledName);
-            TypeLoc = GetShaderLocation(shaders.lighting, typeName);
             PosLoc = GetShaderLocation(shaders.lighting, posName);
             TargetLoc = GetShaderLocation(shaders.lighting, targetName);
             ColorLoc = GetShaderLocation(shaders.lighting, colorName);
@@ -76,7 +65,6 @@ public class Light : ILazyLoad
             Enabled ? 1 : 0,
             ShaderUniformDataType.Int
         );
-            SetShaderValue(shader, TypeLoc, (int)Type, ShaderUniformDataType.Int);
             SetShaderValue(shader, PosLoc, Position, ShaderUniformDataType.Vec3);
             SetShaderValue(shader, TargetLoc, Target, ShaderUniformDataType.Vec3);
             float[] color =

@@ -13,7 +13,7 @@ class Main
     Process currentProcess;
     public Main()
     {
-        MapLoader.ChangeLevelLazy("dev_blend");
+        MapLoader.ChangeLevelLazy("dev_blend2");
         lastTime = GetTime();
 
         logicThread.RunGameLogic();

@@ -32,9 +32,9 @@ class Ending : IDrawableObject
         int fontSize = 50;
         //ADD CZECH SYMBOLS
         string text = "Děkuji za zahraní";
-        Vector2 textSize = MeasureTextEx(GetFontDefault(), text, fontSize, 2);
+        Vector2 textSize = MeasureTextEx(RenderCore.PixelFont, text, fontSize, 2);
         Vector2 center = new Vector2(GetScreenWidth() / 2, GetScreenHeight()/2);
-        DrawTextEx(GetFontDefault(), text, new Vector2(center.X - textSize.X/2, center.Y - textSize.Y/2-50), fontSize, 2, Color.White);
+        DrawTextEx(RenderCore.PixelFont, text, new Vector2(center.X - textSize.X/2, center.Y - textSize.Y/2-50), fontSize, 2, Color.White);
         EndTextureMode();
 
         DrawTextureRec(renderTexture.Texture,new Rectangle(0,0,renderTexture.Texture.Width,-renderTexture.Texture.Height),new Vector2(0,0),new Color(255,255,255,Alpha));

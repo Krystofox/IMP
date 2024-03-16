@@ -22,7 +22,6 @@ class LanternObject : IUpdatableObject
         GetGResources().lazyObjects.Add(lanternModel);
         light = new Light(
             1,
-            LightType.Point,
             new Vector3(0, 0, 0),
             Vector3.Zero,
             new Color(255,255,0,255)

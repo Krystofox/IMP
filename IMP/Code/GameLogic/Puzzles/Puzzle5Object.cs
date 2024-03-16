@@ -14,7 +14,7 @@ class Puzzle5Object : IUpdatableObject
         {false,false,false,false},
         {true,false,true,false},
     };
-    GateObject gate1 = new GateObject(new Vector3(64f, -81f, 0f));
+    GateObject gate1 = new GateObject(new Vector3(61f, -81f, 0f));
     public Puzzle5Object()
     {
         GetGameLogicThread().updatables.Add(gate1);

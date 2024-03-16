@@ -13,7 +13,6 @@ class NormalLight : IUpdatableObject
     {
         light = new Light(
             1,
-            LightType.Point,
             position,
             Vector3.Zero,
             new Color(255,255,0,255)

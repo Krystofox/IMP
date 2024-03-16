@@ -10,12 +10,14 @@ class RenderCore
     public static int screenWidth = 1920;
     public static int screenHeight = 1080;
     Shaders shaders;
+    static public Font PixelFont;
     public RenderCore()
     {
         GraphicsState.Setup();
         SetConfigFlags(ConfigFlags.ResizableWindow);
         InitWindow(screenWidth, screenHeight, "IMP");
         shaders = new Shaders();
+        PixelFont = LoadFontEx("assets/Font/uni05_53.ttf", 30, null, 480);
     }
     public Stopwatch execTime = new Stopwatch();
     public void RenderFrame()

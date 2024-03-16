@@ -15,7 +15,6 @@ class FollowLight : IUpdatableObject
         player = (Player)GetGameLogicThread().GetUpdatableByName("Player");
         light = new Light(
             0,
-            LightType.Point,
             new Vector3(0, 0, 0),
             Vector3.Zero,
             Color.White
